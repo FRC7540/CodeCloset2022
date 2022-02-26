@@ -10,10 +10,17 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
+import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 /** Add your docs here. */
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
+
+    private static final VictorSPX shooterMotor1 = new VictorSPX(Constants.ShooterConstants.kShooterMotor1CanID);
+    private static final VictorSPX shooterMotor2 = new VictorSPX(Constants.ShooterConstants.kShooterMotor2CanID);
+
     public ShooterSubsystem() {}
 
     @Override
