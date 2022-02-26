@@ -1,0 +1,15 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/DriveBaseSubsystem": "Subsystem",
+      "/LiveWindow/IntakeSubsystem": "Subsystem",
+      "/LiveWindow/ShooterSubsystem": "Subsystem",
+      "/LiveWindow/TowerSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/MecanumDrive[1]": "MecanumDrive",
+      "/LiveWindow/Ungrouped/MotorControllerGroup[1]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/SmartDashboard/Auto choices": "String Chooser"
+    }
+  }
+}

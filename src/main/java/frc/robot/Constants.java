@@ -31,4 +31,9 @@ public final class Constants {
         public static final int kClimberRightCanID = 69;
         public static final int kCliberLeftCanID = 420;
     }
+
+    public static final class IO {
+        public static final int kDriverControllerPort = 0;
+        public static final int kOperatorControllerPort = 1;
+    }
 }
