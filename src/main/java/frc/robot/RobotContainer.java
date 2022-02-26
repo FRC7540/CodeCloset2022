@@ -22,7 +22,7 @@ public class RobotContainer {
     }
 
     private void configureButtonBindings() {
-        // (May switch InstantCommand to RunCommand)
+        // (May switch InstantCommand to RunCommand, if this doesn't work.)
         new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new InstantCommand(() -> m_tower.towerMove(true), m_tower), false);
         new JoystickButton(m_operatorController, Button.kX.value).whenHeld(new InstantCommand(() -> m_tower.towerMove(false), m_tower), false);
     }
