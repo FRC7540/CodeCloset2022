@@ -11,4 +11,15 @@ public final class Constants {
 
         public static final MotorType kMotorType = MotorType.kBrushless; 
     }
+    public static final class IntakeConstants {
+        public static final int kIntakeMotorCanID = 5; 
+    }
+    public static final class TowerConstants {
+        public static final int kFrontMotorCanID = 6;
+        public static final int kBackMotorCanID = 7;
+    }
+    public static final class ClimberConstants {
+        public static final int kClimberRightCanID = 69;
+        public static final int kCliberLeftCanID = 420;
+    }
 }
