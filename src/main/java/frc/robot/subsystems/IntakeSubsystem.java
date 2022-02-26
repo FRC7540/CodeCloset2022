@@ -19,4 +19,13 @@ public class IntakeSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
     }
+
+    public void intakeStop() {
+
+    }
+
+    // Note: isReverse should be FALSE in order to intake balls. TRUE makes it spit them out.
+    public void intakeIn(boolean isReverse) {
+
+    }
 }

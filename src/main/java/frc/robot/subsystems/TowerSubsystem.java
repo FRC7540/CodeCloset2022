@@ -21,4 +21,14 @@ public class TowerSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
     }
+
+    public void towerStop() {
+
+    }
+
+    // Note: isUp should be TRUE for the tower to pull balls upward. 
+    // FALSE ejects them in the direction of the intake. (Which also needs to reverse to spit them back out.)
+    public void towerMove(boolean isUp) {
+        
+    }
 }

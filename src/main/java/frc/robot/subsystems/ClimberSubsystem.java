@@ -20,4 +20,13 @@ public class ClimberSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
     }
+
+    public void climbStop() {
+
+    }
+
+    // Note: isClimbing needs to be TRUE for the climber to tighten and pull itself up. FALSE makes it let itself down.
+    public void climbUp(boolean isClimbing) {
+
+    }
 }
