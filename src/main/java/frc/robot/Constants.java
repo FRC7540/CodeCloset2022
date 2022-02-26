@@ -25,6 +25,7 @@ public final class Constants {
     public static final class TowerConstants {
         public static final int kFrontMotorCanID = 6;
         public static final int kBackMotorCanID = 7;
+        public static final double kTowerSpeed = 0.4;
     }
     public static final class ClimberConstants {
         public static final int kClimberRightCanID = 69;
