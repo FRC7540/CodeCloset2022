@@ -11,15 +11,17 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-
-import com.ctre.phoenix.motorcontrol.can.VictorSPX;
+import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 /** Add your docs here. */
 public class ShooterSubsystem extends SubsystemBase {
     /** Creates a new ShooterSubsystem. */
 
-    private static final VictorSPX shooterMotor1 = new VictorSPX(Constants.ShooterConstants.kShooterMotor1CanID);
-    private static final VictorSPX shooterMotor2 = new VictorSPX(Constants.ShooterConstants.kShooterMotor2CanID);
+    private static final WPI_VictorSPX shooterMotor1 = new WPI_VictorSPX(Constants.ShooterConstants.kShooterMotor1CanID);
+    private static final WPI_VictorSPX shooterMotor2 = new WPI_VictorSPX(Constants.ShooterConstants.kShooterMotor2CanID);
+
+    private static final MotorControllerGroup shooterMotors = new MotorControllerGroup(shooterMotor1, shooterMotor2);
 
     public ShooterSubsystem() {}
 
@@ -29,10 +31,10 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void shooterStop() {
-
+            shooterMotors.stopMotor();
     }
 
     public void shooterOut(double shooterSpeed) {
-
+            shooterMotors.set(shooterSpeed);
     }
 }
