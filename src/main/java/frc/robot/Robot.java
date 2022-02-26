@@ -12,7 +12,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
-
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
+import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -21,6 +23,9 @@ import frc.robot.RobotContainer;
  * project.
  */
 public class Robot extends TimedRobot {
+  private MecanumDrive m_drive;
+  private XboxController m_stick;
+
   private static final String kDefaultAuto = "Default";
   private static final String kCustomAuto = "My Auto";
   private String m_autoSelected;
@@ -34,6 +39,19 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    PWMSparkMax frontLeft = new PWMSparkMax(Constants.DriveConstants.kFrontLeftMotorCanID);
+    PWMSparkMax rearLeft = new PWMSparkMax(Constants.DriveConstants.kRearLeftMotorCanID);
+    PWMSparkMax frontRight = new PWMSparkMax(Constants.DriveConstants.kFrontRightMotorCanID);
+    PWMSparkMax rearRight = new PWMSparkMax(Constants.DriveConstants.kRearLeftMotorCanID);
+
+    // Invert the right side motors.
+    // You man need to change this to fit the wiring.
+    frontRight.setInverted(true);
+    rearRight.setInverted(true);
+
+    m_drive = new MecanumDrive(frontLeft, rearLeft, frontRight, rearRight);
+    m_stick = new XboxController(Constants.IO.kXboxChannel);
+
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
     m_chooser.addOption("My Auto", kCustomAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
@@ -92,6 +110,8 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
+    m_drive.driveCartesian(m_stick.getLeftX(), m_stick.getLeftY(), m_stick.getRightX());
+    // Notice: right stick is only taking the x-axis, for the purposes of turning, not strafing.
   }
 
   /**
