@@ -25,8 +25,8 @@ public class ClimberSubsystem extends SubsystemBase {
 
     }
 
-    // Note: isClimbing needs to be TRUE for the climber to tighten and pull itself up. FALSE makes it let itself down.
-    public void climbUp(boolean isClimbing) {
+    // Note: isUp needs to be TRUE for the climber to tighten and pull itself up. FALSE makes it let itself down.
+    public void climbUp(boolean isUp) {
 
     }
 }
