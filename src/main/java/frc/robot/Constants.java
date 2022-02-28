@@ -16,8 +16,6 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int kShooterMotor1CanID = 31;
         public static final int kShooterMotor2CanID = 32;
-
-        public static final MotorType kMotorType = MotorType.kBrushed;
     }
     public static final class IntakeConstants {
         public static final int kIntakeSpoolMotorCanID = 11;
@@ -35,8 +33,11 @@ public final class Constants {
         public static final double kTowerSpeed = 0.4;
     }
     public static final class ClimberConstants {
-        public static final int kClimberRightCanID = 69;
-        public static final int kCliberLeftCanID = 420;
+        public static final int kClimberRightCanID = 41;
+        public static final int kCliberLeftCanID = 42;
+
+        public static final double kClimberSpeed = 0.5;
+        public static final double kClimberLetDownModifier = -0.1;
     }
 
     public static final class IO {
