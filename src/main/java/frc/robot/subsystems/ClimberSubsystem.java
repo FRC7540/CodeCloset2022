@@ -13,7 +13,6 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
-import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,10 +20,7 @@ import frc.robot.Constants;
 public class ClimberSubsystem extends SubsystemBase {
     /** Creates a new ClimberSubsystem. */
 
-    private static final WPI_VictorSPX climberMotorLeft = new WPI_VictorSPX(Constants.ClimberConstants.kCliberLeftCanID);
-    private static final WPI_VictorSPX climberMotorRight = new WPI_VictorSPX(Constants.ClimberConstants.kClimberRightCanID);
-
-    private static final MotorControllerGroup climberMotors = new MotorControllerGroup(climberMotorLeft, climberMotorRight);
+    private static final WPI_VictorSPX climberMotor = new WPI_VictorSPX(Constants.ClimberConstants.kClimberMotorCanID);
 
     public ClimberSubsystem() {}
 
@@ -34,17 +30,15 @@ public class ClimberSubsystem extends SubsystemBase {
     }
 
     public void climbStop() {
-        climberMotors.stopMotor();
+        climberMotor.stopMotor();
     }
 
     // Note: isUp needs to be TRUE for the climber to tighten and pull itself up. FALSE makes it let itself down.
     public void climbUp(boolean isUp) {
         if(isUp) {
-            climberMotorLeft.set(Constants.ClimberConstants.kClimberSpeed);
-            climberMotorRight.set(-Constants.ClimberConstants.kClimberSpeed);
+            climberMotor.set(Constants.ClimberConstants.kClimberSpeed);
         } else {
-            climberMotorLeft.set(-Constants.ClimberConstants.kClimberSpeed + Constants.ClimberConstants.kClimberLetDownModifier);
-            climberMotorRight.set(Constants.ClimberConstants.kClimberSpeed + Constants.ClimberConstants.kClimberLetDownModifier);
+            climberMotor.set(-Constants.ClimberConstants.kClimberSpeed + Constants.ClimberConstants.kClimberLetDownModifier);
         }
     }
 }

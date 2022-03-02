@@ -33,8 +33,7 @@ public final class Constants {
         public static final double kTowerSpeed = 0.4;
     }
     public static final class ClimberConstants {
-        public static final int kClimberRightCanID = 41;
-        public static final int kCliberLeftCanID = 42;
+        public static final int kClimberMotorCanID = 41;
 
         public static final double kClimberSpeed = 0.5;
         public static final double kClimberLetDownModifier = -0.1;
