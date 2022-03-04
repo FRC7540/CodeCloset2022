@@ -30,7 +30,6 @@ public final class Constants {
     public static final class TowerConstants {
         public static final int kFrontMotorCanID = 21;
         public static final int kBackMotorCanID = 22;
-        public static final double kTowerSpeed = 0.4;
     }
     public static final class ClimberConstants {
         public static final int kClimberMotorCanID = 41;
@@ -40,6 +39,7 @@ public final class Constants {
     }
 
     public static final class IO {
+        public static final int kXboxChannel = 0; // BTW, this might be wrong. Fix it if it is.
         public static final int kDriverControllerPort = 0;
         public static final int kOperatorControllerPort = 1;
     }

@@ -4,9 +4,8 @@
 
 // Tower will use two Mini CIM motors. 
 // Controllers: Victors.
-// Goal: Be able to move both motors in opposite directions at a set speed 
-//    (same absolute value for both). Also needs to be able to reverse the 
-//    movement to spit out balls.
+// Goal: Be able to move a motor in both directions at a VARYING speed 
+//    Also needs to be able to reverse the movement to spit out balls.
 
 package frc.robot.subsystems;
 
@@ -36,12 +35,12 @@ public class TowerSubsystem extends SubsystemBase {
     // Assume hardware will just inverseley wire one motor, to make them opposite directions.
     // Note: isUp should be TRUE for the tower to pull balls upward. 
     // FALSE ejects them in the direction of the intake. (Which also needs to reverse to spit them back out.)
-    public void towerMove(boolean isUp) {
+    public void towerMove(boolean isUp, double speed) {
         if (isUp) {
-            motorGroup.set(Constants.TowerConstants.kTowerSpeed);
+            motorGroup.set(speed);
         }
         else {
-            motorGroup.set(-Constants.TowerConstants.kTowerSpeed);
+            motorGroup.set(-speed);
         }
     }
 }

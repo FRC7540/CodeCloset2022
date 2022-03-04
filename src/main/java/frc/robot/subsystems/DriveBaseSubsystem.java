@@ -27,4 +27,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
     public void periodic() {
         // This method will be called once per scheduler run
     }
+
+    public void drive() {
+      
+    }
+
+    public void driveStop() {
+      mecanumDrive.stopMotor();
+    }
 }

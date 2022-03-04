@@ -4,7 +4,7 @@
 
 // Shooter will use two Redlines.
 // Controllers: Victors
-// Goal: Be able to run both motors at the same absolute value of speed, in 
+// Goal: Be able to run both motors at different, VARYING speeds, in 
 //    opposite directions, and stop.
 
 package frc.robot.subsystems;
