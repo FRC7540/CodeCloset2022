@@ -4,9 +4,8 @@
 
 // Tower will use two Mini CIM motors. 
 // Controllers: Victors.
-// Goal: Be able to move both motors in opposite directions at a set speed 
-//    (same absolute value for both). Also needs to be able to reverse the 
-//    movement to spit out balls.
+// Goal: Be able to move a motor in both directions at a VARYING speed 
+//    Also needs to be able to reverse the movement to spit out balls.
 
 package frc.robot.subsystems;
 

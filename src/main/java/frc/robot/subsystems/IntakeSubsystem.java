@@ -4,7 +4,7 @@
 
 // Intake will use a single Redline.
 // Controllers: Unsure. Will probably just be a relay.
-// Goal: Be able to go forward at a set speed, backward at a set speed, and stop.
+// Goal: Be able to go forward at VARYING speed, backward at VARYING speed, and stop.
 
 package frc.robot.subsystems;
 
