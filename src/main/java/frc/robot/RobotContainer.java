@@ -30,5 +30,7 @@ public class RobotContainer {
     private void configureDefaultCommands() {
         m_tower.setDefaultCommand(
             new RunCommand(() -> m_tower.towerStop(), m_tower));
+        m_robotDrive.setDefaultCommand(
+            new RunCommand(() -> m_robotDrive.driveStop(), m_robotDrive)); // m_robotDrive might be useless here.
     }
 }
