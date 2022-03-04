@@ -35,12 +35,12 @@ public class TowerSubsystem extends SubsystemBase {
     // Assume hardware will just inverseley wire one motor, to make them opposite directions.
     // Note: isUp should be TRUE for the tower to pull balls upward. 
     // FALSE ejects them in the direction of the intake. (Which also needs to reverse to spit them back out.)
-    public void towerMove(boolean isUp) {
+    public void towerMove(boolean isUp, double speed) {
         if (isUp) {
-            motorGroup.set(Constants.TowerConstants.kTowerSpeed);
+            motorGroup.set(speed);
         }
         else {
-            motorGroup.set(-Constants.TowerConstants.kTowerSpeed);
+            motorGroup.set(-speed);
         }
     }
 }
