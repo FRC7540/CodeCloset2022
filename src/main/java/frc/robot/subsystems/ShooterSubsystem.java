@@ -77,6 +77,7 @@ public class ShooterSubsystem extends SubsystemBase {
         updateMotors();
     }
 
+    // positive modifier spins motor 1 faster than motor 2, negative spins 2 faster than 1
     private static void updateMotors() {
         shooterMotor1.set(baseSpeed + modifier);
         shooterMotor2.set(baseSpeed - modifier);

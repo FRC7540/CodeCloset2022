@@ -22,6 +22,8 @@ public class TowerSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX backMotor = new WPI_VictorSPX(Constants.TowerConstants.kBackMotorCanID);
     private final MotorControllerGroup motorGroup = new MotorControllerGroup(frontMotor, backMotor);
 
+    private static double kTowerSpeed = Constants.TowerConstants.defaultSpeed;
+
     /** Creates a new DriveBaseSubsystem. */
     public TowerSubsystem() {
     }
@@ -45,6 +47,15 @@ public class TowerSubsystem extends SubsystemBase {
             motorGroup.set(speed);
         } else {
             motorGroup.set(-speed);
+        }
+    }
+
+    //increments kTowerSpeed by 10%. If up true, +10%. if false, -10%.
+    public void setTowerSpeed (boolean up) {
+        if (up && !(kTowerSpeed >= 1)) {
+            kTowerSpeed = kTowerSpeed + 0.1;
+        } else if (!up && !(kTowerSpeed <= 0)) {
+            kTowerSpeed = kTowerSpeed - 0.1;
         }
     }
 }
