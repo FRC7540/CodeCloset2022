@@ -28,6 +28,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private boolean kintakeCallibrated = false;
     private boolean isUp = true;
+    private boolean moving = false;
 
     private static double rollerSpeed = 0;
 
@@ -55,6 +56,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakePosition() {
         //NOTE: negative constant speed for down, positive for up
         if (RobotContainer.kOperateRobot) {
+            moving = true;
             do {
                 if(!kintakeCallibrated){
                     spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
@@ -69,9 +71,10 @@ public class IntakeSubsystem extends SubsystemBase {
                     } else {
                         spoolMotor.stopMotor();
                         isUp = !isUp;
+                        moving = false;
                     }
                 }
-            } while (true);
+            } while (moving);
         }
     }
 
