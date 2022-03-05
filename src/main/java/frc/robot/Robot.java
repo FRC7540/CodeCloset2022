@@ -99,16 +99,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-      m_drive.driveCartesian(m_driverStick.getLeftX(), m_driverStick.getLeftY(), m_driverStick.getRightX());
-      // Notice: right stick is only taking the x-axis, for the purposes of turning, not strafing.
-
-      IntakeSubsystem.intakeSpeedSet(m_driverStick.getLeftTriggerAxis());
-      ShooterSubsystem.shooterVelocity(m_operatorController.getRightTriggerAxis());
-      
-      //if left trigger depressed, stop shooter motors
-      if (m_operatorController.getLeftTriggerAxis() >= 0.5) {
-        ShooterSubsystem.stopShooter();
-      }
   }
 
   /**
