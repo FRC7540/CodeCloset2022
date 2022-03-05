@@ -4,10 +4,7 @@
 
 // Climber will use two Redlines
 // Controllers: Victors
-// Goal: Be able to move the motor at a set speed one direction, and then 
-//    reverse and do the same in the opposite direction.
-
-// NOTE: Climber may be axed, but this is here just in case.
+// CLIMBER: Driver controller button Y to go up, and button X to go down.
 
 package frc.robot.subsystems;
 
