@@ -11,6 +11,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
@@ -35,6 +37,8 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void shooterOut(double shooterSpeed) {
+        if (RobotContainer.kOperateRobot) {
             shooterMotors.set(shooterSpeed);
+        }
     }
 }

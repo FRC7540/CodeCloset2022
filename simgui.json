@@ -1,14 +1,30 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/LiveWindow/ClimberSubsystem": "Subsystem",
       "/LiveWindow/DriveBaseSubsystem": "Subsystem",
       "/LiveWindow/IntakeSubsystem": "Subsystem",
       "/LiveWindow/ShooterSubsystem": "Subsystem",
       "/LiveWindow/TowerSubsystem": "Subsystem",
+      "/LiveWindow/Ungrouped/DigitalInput[0]": "Digital Input",
+      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
       "/LiveWindow/Ungrouped/MecanumDrive[1]": "MecanumDrive",
       "/LiveWindow/Ungrouped/MotorControllerGroup[1]": "Motor Controller",
+      "/LiveWindow/Ungrouped/MotorControllerGroup[2]": "Motor Controller",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Victor SPX [11]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [12]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Victor SPX [41]": "Motor Controller",
       "/SmartDashboard/Auto choices": "String Chooser"
     }
   }

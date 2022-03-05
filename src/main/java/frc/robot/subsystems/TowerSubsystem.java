@@ -11,6 +11,8 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 /** Add your docs here. */
@@ -36,11 +38,13 @@ public class TowerSubsystem extends SubsystemBase {
     // Note: isUp should be TRUE for the tower to pull balls upward. 
     // FALSE ejects them in the direction of the intake. (Which also needs to reverse to spit them back out.)
     public void towerMove(boolean isUp, double speed) {
-        if (isUp) {
-            motorGroup.set(speed);
-        }
-        else {
-            motorGroup.set(-speed);
+        if (RobotContainer.kOperateRobot) {
+            if (isUp) {
+                motorGroup.set(speed);
+            }
+            else {
+                motorGroup.set(-speed);
+            }
         }
     }
 }

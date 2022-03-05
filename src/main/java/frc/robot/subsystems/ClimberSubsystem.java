@@ -15,6 +15,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 /** Add your docs here. */
 public class ClimberSubsystem extends SubsystemBase {
@@ -35,10 +36,12 @@ public class ClimberSubsystem extends SubsystemBase {
 
     // Note: isUp needs to be TRUE for the climber to tighten and pull itself up. FALSE makes it let itself down.
     public void climbUp(boolean isUp) {
-        if(isUp) {
-            climberMotor.set(Constants.ClimberConstants.kClimberSpeed);
-        } else {
-            climberMotor.set(-Constants.ClimberConstants.kClimberSpeed + Constants.ClimberConstants.kClimberLetDownModifier);
+        if(RobotContainer.kOperateRobot) {
+            if(isUp) {
+                climberMotor.set(Constants.ClimberConstants.kClimberSpeed);
+            } else {
+                climberMotor.set(-Constants.ClimberConstants.kClimberSpeed + Constants.ClimberConstants.kClimberLetDownModifier);
+            }
         }
     }
 }

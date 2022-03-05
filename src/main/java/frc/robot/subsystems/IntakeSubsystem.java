@@ -9,7 +9,10 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -25,6 +28,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private boolean kintakeCallibrated = false;
     private boolean isUp = true;
+
+    private static double rollerSpeed = 0;
 
     public IntakeSubsystem() {}
 
@@ -48,43 +53,37 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // Note: isUp should be TRUE to spool paracord. FALSE unspools, setting the intake rollers down.
     public void intakePosition() {
-    /*  NOTE: This is old code, bt it can be used if there are two limit switches for the intake position.
-        if(isUp && !upLimitSwitch.get()){
-            spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-        } else if(!isUp && !downLimitSwitch.get()) {
-            spoolMotor.set(-Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-        } else {
-            spoolMotor.set(0);
-        }
-    */
-        int cycleCount = 0; //single-instance cycle count for going down
-
         //NOTE: negative constant speed for down, positive for up
-        do {
-            if(!kintakeCallibrated){
-                spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-            } else if (upLimitSwitch.get()) {
-                spoolMotor.stopMotor();
-            } else {
-                if (isUp) {
-                    spoolMotor.set(-Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                    cycleCount++;
-                    if (cycleCount >= Constants.IntakeConstants.kCyclesUntilDown) {
-                        spoolMotor.stopMotor();
-                        isUp = false;
-                    }
-                } else if (!isUp && !upLimitSwitch.get()) {
+        if (RobotContainer.kOperateRobot) {
+            do {
+                if(!kintakeCallibrated){
                     spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                } else {
+                } else if (upLimitSwitch.get()) {
                     spoolMotor.stopMotor();
+                    kintakeCallibrated = true;
+                } else {
+                    if (isUp && !downLimitSwitch.get()) {
+                        spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+                    } else if (!isUp && !upLimitSwitch.get()) {
+                        spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+                    } else {
+                        spoolMotor.stopMotor();
+                        isUp = !isUp;
+                    }
                 }
-            }
-            
-
-        } while (true);
+            } while (true);
+        }
     }
 
     public void intakeSpoolStop() {
         spoolMotor.stopMotor();
+        kintakeCallibrated = false;
+    }
+
+    public static void intakeSpeedSet(double speedControl) {
+        if (speedControl > rollerSpeed) {
+            rollerSpeed = speedControl;            
+        }
+        rollerMotor.set(rollerSpeed);
     }
 }
