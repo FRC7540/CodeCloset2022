@@ -83,6 +83,7 @@ public class IntakeSubsystem extends SubsystemBase {
         kIntakeCallibrated = false;
     }
 
+    //if speedControl is higher than rollerSpeed, set rollerSpeed to speedControl. Roller stops when intakeStop() called.
     public static void intakeSpeedSet(double speedControl) {
         if (speedControl > rollerSpeed) {
             rollerSpeed = speedControl;            
