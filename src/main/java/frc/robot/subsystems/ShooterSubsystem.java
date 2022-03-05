@@ -25,6 +25,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private static final MotorControllerGroup shooterMotors = new MotorControllerGroup(shooterMotor1, shooterMotor2);
 
+    private static double baseSpeed = 0;
+
     public ShooterSubsystem() {}
 
     @Override
@@ -40,5 +42,26 @@ public class ShooterSubsystem extends SubsystemBase {
         if (RobotContainer.kOperateRobot) {
             shooterMotors.set(shooterSpeed);
         }
+    }
+
+    public void shooterVelocity (double shooterVelocity) {
+        double incrementedSpeed = 0;
+        if (shooterVelocity < 0.25 && shooterVelocity > 0) {
+            incrementedSpeed = Constants.ShooterConstants.lowestSpeed;
+        } else if (shooterVelocity < 0.5 && shooterVelocity > 0) {
+            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment);
+        } else if (shooterVelocity < 0.75 && shooterVelocity > 0) {
+            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment * 2);
+        } else if (shooterVelocity <= 1 && shooterVelocity > 0) {
+            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment * 3);
+        } else {
+            incrementedSpeed = 0;
+        }
+
+        if (incrementedSpeed > baseSpeed) {
+            baseSpeed = incrementedSpeed;
+        }
+
+        
     }
 }
