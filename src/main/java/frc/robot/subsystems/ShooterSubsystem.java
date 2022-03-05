@@ -11,7 +11,6 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
@@ -40,9 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void shooterOut(double shooterSpeed) {
-        if (RobotContainer.kOperateRobot) {
             shooterMotors.set(shooterSpeed);
-        }
     }
 
         // increments baseSpeed of shooter motors in 4 zones of left trigger axis
@@ -71,7 +68,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     // if increase = true, increase modifier. If false, decrease
-    public static void shooterAngleModifier(boolean increase) {
+    public void shooterAngleModifier(boolean increase) {
         if (increase) {
             modifier = modifier + 0.05;
         } else {

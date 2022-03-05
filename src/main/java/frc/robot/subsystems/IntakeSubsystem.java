@@ -9,7 +9,6 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
@@ -24,7 +23,8 @@ public class IntakeSubsystem extends SubsystemBase {
     DigitalInput downLimitSwitch = new DigitalInput(Constants.IntakeConstants.kIntakeLimitSwitchDown);
 
     private static final WPI_VictorSPX spoolMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeSpoolMotorCanID);
-    private static final WPI_VictorSPX rollerMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeRollerMotorCanID);  
+    private static final WPI_VictorSPX rollerMotor = new WPI_VictorSPX(
+            Constants.IntakeConstants.kIntakeRollerMotorCanID);
 
     private boolean kIntakeCallibrated = false;
     private boolean isUp = true;
@@ -32,7 +32,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private static double rollerSpeed = 0;
 
-    public IntakeSubsystem() {}
+    public IntakeSubsystem() {
+    }
 
     @Override
     public void periodic() {
@@ -43,39 +44,39 @@ public class IntakeSubsystem extends SubsystemBase {
         rollerMotor.stopMotor();
     }
 
-    // Note: isReverse should be FALSE in order to intake balls. TRUE makes it spit them out.
+    // Note: isReverse should be FALSE in order to intake balls. TRUE makes it spit
+    // them out.
     public void intakeIn(boolean isReverse) {
-        if(isReverse){
+        if (isReverse) {
             rollerMotor.set(-Constants.IntakeConstants.kIntakeRollerMotorSpeed);
         } else {
             rollerMotor.set(Constants.IntakeConstants.kIntakeRollerMotorSpeed);
         }
     }
 
-    // Note: isUp should be TRUE to spool paracord. FALSE unspools, setting the intake rollers down.
+    // Note: isUp should be TRUE to spool paracord. FALSE unspools, setting the
+    // intake rollers down.
     public void intakePosition() {
-        //NOTE: negative constant speed for down, positive for up
-        if (RobotContainer.kOperateRobot) {
-            moving = true;
-            do {
-                if(!kIntakeCallibrated && !upLimitSwitch.get()){
+        // NOTE: negative constant speed for down, positive for up
+        moving = true;
+        do {
+            if (!kIntakeCallibrated && !upLimitSwitch.get()) {
+                spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+            } else if (!kIntakeCallibrated && upLimitSwitch.get()) {
+                spoolMotor.stopMotor();
+                kIntakeCallibrated = true;
+            } else {
+                if (isUp && !downLimitSwitch.get()) {
                     spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                } else if (!kIntakeCallibrated && upLimitSwitch.get()) {
-                    spoolMotor.stopMotor();
-                    kIntakeCallibrated = true;
+                } else if (!isUp && !upLimitSwitch.get()) {
+                    spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
                 } else {
-                    if (isUp && !downLimitSwitch.get()) {
-                        spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                    } else if (!isUp && !upLimitSwitch.get()) {
-                        spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                    } else {
-                        spoolMotor.stopMotor();
-                        isUp = !isUp;
-                        moving = false;
-                    }
+                    spoolMotor.stopMotor();
+                    isUp = !isUp;
+                    moving = false;
                 }
-            } while (moving);
-        }
+            }
+        } while (moving);
     }
 
     public void intakeSpoolStop() {
@@ -85,7 +86,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public static void intakeSpeedSet(double speedControl) {
         if (speedControl > rollerSpeed) {
-            rollerSpeed = speedControl;            
+            rollerSpeed = speedControl;
         }
         rollerMotor.set(rollerSpeed);
     }

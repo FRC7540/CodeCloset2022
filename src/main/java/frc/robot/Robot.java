@@ -99,7 +99,6 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     CommandScheduler.getInstance().run();
-    if (RobotContainer.kOperateRobot) {
       m_drive.driveCartesian(m_driverStick.getLeftX(), m_driverStick.getLeftY(), m_driverStick.getRightX());
       // Notice: right stick is only taking the x-axis, for the purposes of turning, not strafing.
 
@@ -110,7 +109,6 @@ public class Robot extends TimedRobot {
       if (m_operatorController.getLeftTriggerAxis() >= 0.5) {
         ShooterSubsystem.stopShooter();
       }
-    }
   }
 
   /**
