@@ -23,6 +23,9 @@ public class IntakeSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX spoolMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeSpoolMotorCanID);
     private static final WPI_VictorSPX rollerMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeRollerMotorCanID);  
 
+    private boolean kintakeCallibrated = false;
+    private boolean isUp = true;
+
     public IntakeSubsystem() {}
 
     @Override
@@ -44,7 +47,8 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     // Note: isUp should be TRUE to spool paracord. FALSE unspools, setting the intake rollers down.
-    public void intakePosition(boolean isUp) {
+    public void intakePosition() {
+    /*  NOTE: This is old code, bt it can be used if there are two limit switches for the intake position.
         if(isUp && !upLimitSwitch.get()){
             spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
         } else if(!isUp && !downLimitSwitch.get()) {
@@ -52,6 +56,32 @@ public class IntakeSubsystem extends SubsystemBase {
         } else {
             spoolMotor.set(0);
         }
+    */
+        int cycleCount = 0; //single-instance cycle count for going down
+
+        //NOTE: negative constant speed for down, positive for up
+        do {
+            if(!kintakeCallibrated){
+                spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+            } else if (upLimitSwitch.get()) {
+                spoolMotor.stopMotor();
+            } else {
+                if (isUp) {
+                    spoolMotor.set(-Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+                    cycleCount++;
+                    if (cycleCount >= Constants.IntakeConstants.kCyclesUntilDown) {
+                        spoolMotor.stopMotor();
+                        isUp = false;
+                    }
+                } else if (!isUp && !upLimitSwitch.get()) {
+                    spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+                } else {
+                    spoolMotor.stopMotor();
+                }
+            }
+            
+
+        } while (true);
     }
 
     public void intakeSpoolStop() {

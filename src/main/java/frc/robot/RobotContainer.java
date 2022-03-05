@@ -31,6 +31,7 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new InstantCommand(() -> m_tower.towerMove(false, kTowerSpeed), m_tower), false);
         new JoystickButton(m_operatorController, Button.kX.value).whenPressed(new InstantCommand(() -> setTowerSpeed(true)), false); //left button - decreases speed
         new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new InstantCommand(() -> setTowerSpeed(false)), false); //right button - increases speed
+        new JoystickButton(m_operatorController, Button.kBack.value).whenPressed(new InstantCommand(() -> m_intake.intakePosition()), false); //select button - moves intake up/down when pressed
     }
 
     private void setTowerSpeed (boolean up) {
