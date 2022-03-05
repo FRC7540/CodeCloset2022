@@ -22,6 +22,8 @@ public class TowerSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX backMotor = new WPI_VictorSPX(Constants.TowerConstants.kBackMotorCanID);
     private final MotorControllerGroup motorGroup = new MotorControllerGroup(frontMotor, backMotor);
 
+    private static double kTowerSpeed = Constants.TowerConstants.defaultSpeed;
+
     /** Creates a new DriveBaseSubsystem. */
     public TowerSubsystem() {}
 
@@ -37,14 +39,23 @@ public class TowerSubsystem extends SubsystemBase {
     // Assume hardware will just inverseley wire one motor, to make them opposite directions.
     // Note: isUp should be TRUE for the tower to pull balls upward. 
     // FALSE ejects them in the direction of the intake. (Which also needs to reverse to spit them back out.)
-    public void towerMove(boolean isUp, double speed) {
+    public void towerMove(boolean isUp) {
         if (RobotContainer.kOperateRobot) {
             if (isUp) {
-                motorGroup.set(speed);
+                motorGroup.set(kTowerSpeed);
             }
             else {
-                motorGroup.set(-speed);
+                motorGroup.set(-kTowerSpeed);
             }
+        }
+    }
+
+    //increments kTowerSpeed by 10%. If up true, +10%. if false, -10%.
+    public void setTowerSpeed (boolean up) {
+        if (up && !(kTowerSpeed >= 1)) {
+            kTowerSpeed = kTowerSpeed + 0.1;
+        } else if (!up && !(kTowerSpeed <= 0)) {
+            kTowerSpeed = kTowerSpeed - 0.1;
         }
     }
 }
