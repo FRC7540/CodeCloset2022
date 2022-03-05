@@ -62,8 +62,8 @@ public class ShooterSubsystem extends SubsystemBase {
 
         if (incrementedSpeed > baseSpeed) {
             baseSpeed = incrementedSpeed;
-            updateMotors();
         }
+        updateMotors();
     }
 
     public static void stopShooter() {
