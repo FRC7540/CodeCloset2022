@@ -20,8 +20,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class IntakeSubsystem extends SubsystemBase {
     /** Creates a new IntakeSubsystem. */
 
-    DigitalInput upLimitSwitch = new DigitalInput(Constants.IntakeConstants.kIntakeLimitSwitchUp);
-    DigitalInput downLimitSwitch = new DigitalInput(Constants.IntakeConstants.kIntakeLimitSwitchDown);
+    private final DigitalInput upLimitSwitch = new DigitalInput(Constants.IntakeConstants.kIntakeLimitSwitchUp);
+    private final DigitalInput downLimitSwitch = new DigitalInput(Constants.IntakeConstants.kIntakeLimitSwitchDown);
 
     private static final WPI_VictorSPX spoolMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeSpoolMotorCanID);
     private static final WPI_VictorSPX rollerMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeRollerMotorCanID);  
