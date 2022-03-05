@@ -14,9 +14,12 @@ public class RobotContainer {
     private final TowerSubsystem m_tower = new TowerSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+    private final ClimberSubsystem m_climber = new ClimberSubsystem();
 
     private final XboxController m_driverController = new XboxController(Constants.IO.kDriverControllerPort);
     private final XboxController m_operatorController = new XboxController(Constants.IO.kOperatorControllerPort);
+
+    public static boolean kOperateRobot = true;
 
     double kTowerSpeed = 0.5;
 
@@ -31,6 +34,11 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new InstantCommand(() -> m_tower.towerMove(false, kTowerSpeed), m_tower), false);
         new JoystickButton(m_operatorController, Button.kX.value).whenPressed(new InstantCommand(() -> setTowerSpeed(true)), false); //left button - decreases speed
         new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new InstantCommand(() -> setTowerSpeed(false)), false); //right button - increases speed
+        new JoystickButton(m_operatorController, Button.kBack.value).whenPressed(new InstantCommand(() -> m_intake.intakePosition()), false); //select button - moves intake up/down when pressed
+        new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(() -> m_intake.intakeSpoolStop()), false); //start button - stops intake up/down movement
+        new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller 
+
+        new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> stopAll()), false);
     }
 
     private void setTowerSpeed (boolean up) {
@@ -47,5 +55,20 @@ public class RobotContainer {
             new RunCommand(() -> m_tower.towerStop(), m_tower));
         m_robotDrive.setDefaultCommand(
             new RunCommand(() -> m_robotDrive.driveStop(), m_robotDrive)); // m_robotDrive might be useless here.
+    }
+
+    private void stopAll() {
+        if (kOperateRobot) {
+            kOperateRobot = false;
+            m_intake.intakeStop();
+            m_intake.intakeSpoolStop();
+            m_tower.towerStop();
+            m_climber.climbStop();
+            m_shooter.shooterStop();
+            m_robotDrive.driveStop();
+        } else {
+            kOperateRobot = true;
+        }
+        
     }
 }
