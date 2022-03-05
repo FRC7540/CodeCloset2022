@@ -22,7 +22,7 @@ public class TowerSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX backMotor = new WPI_VictorSPX(Constants.TowerConstants.kBackMotorCanID);
     private final MotorControllerGroup motorGroup = new MotorControllerGroup(frontMotor, backMotor);
 
-    private static double kTowerSpeed = Constants.TowerConstants.defaultSpeed;
+    private static double towerSpeed = Constants.TowerConstants.defaultSpeed;
 
     /** Creates a new DriveBaseSubsystem. */
     public TowerSubsystem() {
@@ -42,20 +42,20 @@ public class TowerSubsystem extends SubsystemBase {
     // Note: isUp should be TRUE for the tower to pull balls upward.
     // FALSE ejects them in the direction of the intake. (Which also needs to
     // reverse to spit them back out.)
-    public void towerMove(boolean isUp, double speed) {
+    public void towerMove(boolean isUp) {
         if (isUp) {
-            motorGroup.set(speed);
+            motorGroup.set(towerSpeed);
         } else {
-            motorGroup.set(-speed);
+            motorGroup.set(-towerSpeed);
         }
     }
 
     //increments kTowerSpeed by 10%. If up true, +10%. if false, -10%.
     public void setTowerSpeed (boolean up) {
-        if (up && !(kTowerSpeed >= 1)) {
-            kTowerSpeed = kTowerSpeed + 0.1;
-        } else if (!up && !(kTowerSpeed <= 0)) {
-            kTowerSpeed = kTowerSpeed - 0.1;
+        if (up && !(towerSpeed >= 1)) {
+            towerSpeed = towerSpeed + 0.1;
+        } else if (!up && !(towerSpeed <= 0)) {
+            towerSpeed = towerSpeed - 0.1;
         }
     }
 }
