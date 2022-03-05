@@ -11,13 +11,13 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+
 /** Add your docs here. */
 public class TowerSubsystem extends SubsystemBase {
-    
+
     private static final WPI_VictorSPX frontMotor = new WPI_VictorSPX(Constants.TowerConstants.kFrontMotorCanID);
     private static final WPI_VictorSPX backMotor = new WPI_VictorSPX(Constants.TowerConstants.kBackMotorCanID);
     private final MotorControllerGroup motorGroup = new MotorControllerGroup(frontMotor, backMotor);
@@ -25,7 +25,8 @@ public class TowerSubsystem extends SubsystemBase {
     private static double kTowerSpeed = Constants.TowerConstants.defaultSpeed;
 
     /** Creates a new DriveBaseSubsystem. */
-    public TowerSubsystem() {}
+    public TowerSubsystem() {
+    }
 
     @Override
     public void periodic() {
@@ -35,18 +36,17 @@ public class TowerSubsystem extends SubsystemBase {
     public void towerStop() {
         motorGroup.stopMotor();
     }
-    
-    // Assume hardware will just inverseley wire one motor, to make them opposite directions.
-    // Note: isUp should be TRUE for the tower to pull balls upward. 
-    // FALSE ejects them in the direction of the intake. (Which also needs to reverse to spit them back out.)
-    public void towerMove(boolean isUp) {
-        if (RobotContainer.kOperateRobot) {
-            if (isUp) {
-                motorGroup.set(kTowerSpeed);
-            }
-            else {
-                motorGroup.set(-kTowerSpeed);
-            }
+
+    // Assume hardware will just inverseley wire one motor, to make them opposite
+    // directions.
+    // Note: isUp should be TRUE for the tower to pull balls upward.
+    // FALSE ejects them in the direction of the intake. (Which also needs to
+    // reverse to spit them back out.)
+    public void towerMove(boolean isUp, double speed) {
+        if (isUp) {
+            motorGroup.set(speed);
+        } else {
+            motorGroup.set(-speed);
         }
     }
 
