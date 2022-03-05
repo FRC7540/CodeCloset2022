@@ -26,8 +26,9 @@ public class IntakeSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX spoolMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeSpoolMotorCanID);
     private static final WPI_VictorSPX rollerMotor = new WPI_VictorSPX(Constants.IntakeConstants.kIntakeRollerMotorCanID);  
 
-    private boolean kintakeCallibrated = false;
+    private boolean kIntakeCallibrated = false;
     private boolean isUp = true;
+    private boolean moving = false;
 
     private static double rollerSpeed = 0;
 
@@ -55,12 +56,13 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakePosition() {
         //NOTE: negative constant speed for down, positive for up
         if (RobotContainer.kOperateRobot) {
+            moving = true;
             do {
-                if(!kintakeCallibrated){
+                if(!kIntakeCallibrated && !upLimitSwitch.get()){
                     spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                } else if (upLimitSwitch.get()) {
+                } else if (!kIntakeCallibrated && upLimitSwitch.get()) {
                     spoolMotor.stopMotor();
-                    kintakeCallibrated = true;
+                    kIntakeCallibrated = true;
                 } else {
                     if (isUp && !downLimitSwitch.get()) {
                         spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
@@ -69,15 +71,16 @@ public class IntakeSubsystem extends SubsystemBase {
                     } else {
                         spoolMotor.stopMotor();
                         isUp = !isUp;
+                        moving = false;
                     }
                 }
-            } while (true);
+            } while (moving);
         }
     }
 
     public void intakeSpoolStop() {
         spoolMotor.stopMotor();
-        kintakeCallibrated = false;
+        kIntakeCallibrated = false;
     }
 
     public static void intakeSpeedSet(double speedControl) {

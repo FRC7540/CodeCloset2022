@@ -1,7 +1,5 @@
 package frc.robot;
 
-import javax.swing.ButtonGroup;
-
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -38,7 +36,9 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(() -> m_intake.intakeSpoolStop()), false); //start button - stops intake up/down movement
         new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller 
 
-        new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> stopAll()), false);
+        new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> stopAll()), false); //Driver Stop Button - press once to disable, again to enable
+        new JoystickButton(m_driverController, Button.kY.value).whenHeld(new InstantCommand(() -> m_climber.climbUp(true)), false);
+        new JoystickButton(m_driverController, Button.kX.value).whenHeld(new InstantCommand(() -> m_climber.climbUp(false)), false);
     }
 
     private void setTowerSpeed (boolean up) {
