@@ -36,10 +36,8 @@ public class ClimberSubsystem extends SubsystemBase {
         if(RobotContainer.kOperateRobot) {
             if(isUp) {
                 climberMotor.set(Constants.ClimberConstants.kClimberSpeed);
-            } else if (isUp=false){
+            } else if (!isUp){
                 climberMotor.set(-Constants.ClimberConstants.kClimberSpeed + Constants.ClimberConstants.kClimberLetDownModifier);
-            } else {
-                climberMotor.stopMotor();
             }
         }
     }

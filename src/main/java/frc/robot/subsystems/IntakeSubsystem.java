@@ -58,7 +58,7 @@ public class IntakeSubsystem extends SubsystemBase {
         if (RobotContainer.kOperateRobot) {
             moving = true;
             do {
-                if(!kIntakeCallibrated){
+                if(!kIntakeCallibrated && !upLimitSwitch.get()){
                     spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
                 } else if (!kIntakeCallibrated && upLimitSwitch.get()) {
                     spoolMotor.stopMotor();
