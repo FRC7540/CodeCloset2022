@@ -56,7 +56,6 @@ public class TowerSubsystem extends SubsystemBase {
             kTowerSpeed = kTowerSpeed + 0.1;
         } else if (!up && !(kTowerSpeed <= 0)) {
             kTowerSpeed = kTowerSpeed - 0.1;
-        } else {
         }
     }
 }
