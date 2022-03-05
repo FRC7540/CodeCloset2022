@@ -16,6 +16,10 @@ public final class Constants {
     public static final class ShooterConstants {
         public static final int kShooterMotor1CanID = 31;
         public static final int kShooterMotor2CanID = 32;
+
+        // Both of these constants need to be changed at the same time.
+        public static final double lowestSpeed = 0.7;
+        public static final double increment = 0.1;
     }
     public static final class IntakeConstants {
         public static final int kIntakeSpoolMotorCanID = 11;

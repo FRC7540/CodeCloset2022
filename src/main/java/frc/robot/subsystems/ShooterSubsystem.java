@@ -25,6 +25,9 @@ public class ShooterSubsystem extends SubsystemBase {
 
     private static final MotorControllerGroup shooterMotors = new MotorControllerGroup(shooterMotor1, shooterMotor2);
 
+    private static double baseSpeed = 0;
+    private static double modifier = 0;
+
     public ShooterSubsystem() {}
 
     @Override
@@ -40,5 +43,45 @@ public class ShooterSubsystem extends SubsystemBase {
         if (RobotContainer.kOperateRobot) {
             shooterMotors.set(shooterSpeed);
         }
+    }
+
+        // increments baseSpeed of shooter motors in 4 zones of left trigger axis
+    public static void shooterVelocity (double shooterVelocity) {
+        double incrementedSpeed = 0;
+        if (shooterVelocity < 0.25 && shooterVelocity > 0) {
+            incrementedSpeed = Constants.ShooterConstants.lowestSpeed;
+        } else if (shooterVelocity < 0.5 && shooterVelocity > 0) {
+            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment);
+        } else if (shooterVelocity < 0.75 && shooterVelocity > 0) {
+            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment * 2);
+        } else if (shooterVelocity <= 1 && shooterVelocity > 0) {
+            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment * 3);
+        } else {
+            incrementedSpeed = 0;
+        }
+
+        if (incrementedSpeed > baseSpeed) {
+            baseSpeed = incrementedSpeed;
+        }
+        updateMotors();
+    }
+
+    public static void stopShooter() {
+        shooterMotors.stopMotor();
+    }
+
+    // if increase = true, increase modifier. If false, decrease
+    public static void shooterAngleModifier(boolean increase) {
+        if (increase) {
+            modifier = modifier + 0.05;
+        } else {
+            modifier = modifier - 0.05;
+        }
+        updateMotors();
+    }
+
+    private static void updateMotors() {
+        shooterMotor1.set(baseSpeed + modifier);
+        shooterMotor2.set(baseSpeed - modifier);
     }
 }
