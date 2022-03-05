@@ -22,7 +22,7 @@ public final class Constants {
         public static final int kIntakeRollerMotorCanID = 12;
 
         public static final double kIntakeRollerMotorSpeed = 0.5;
-        public static final double kIntakeSpoolMotorSpeed = 0.;
+        public static final double kIntakeSpoolMotorSpeed = 0.7;
 
         public static final int kIntakeLimitSwitchUp = 0;
         public static final int kIntakeLimitSwitchDown = 1;
