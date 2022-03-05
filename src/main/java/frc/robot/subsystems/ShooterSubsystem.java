@@ -26,6 +26,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private static final MotorControllerGroup shooterMotors = new MotorControllerGroup(shooterMotor1, shooterMotor2);
 
     private static double baseSpeed = 0;
+    private static double modifier = 0;
 
     public ShooterSubsystem() {}
 
@@ -44,7 +45,8 @@ public class ShooterSubsystem extends SubsystemBase {
         }
     }
 
-    public void shooterVelocity (double shooterVelocity) {
+        // increments baseSpeed of shooter motors in 4 zones of left trigger axis
+    public static void shooterVelocity (double shooterVelocity) {
         double incrementedSpeed = 0;
         if (shooterVelocity < 0.25 && shooterVelocity > 0) {
             incrementedSpeed = Constants.ShooterConstants.lowestSpeed;
@@ -60,8 +62,26 @@ public class ShooterSubsystem extends SubsystemBase {
 
         if (incrementedSpeed > baseSpeed) {
             baseSpeed = incrementedSpeed;
+            updateMotors();
         }
+    }
 
-        
+    public static void stopShooter() {
+        shooterMotors.stopMotor();
+    }
+
+    // if increase = true, increase modifier. If false, decrease
+    public static void shooterAngleModifier(boolean increase) {
+        if (increase) {
+            modifier = modifier + 0.05;
+        } else {
+            modifier = modifier - 0.05;
+        }
+        updateMotors();
+    }
+
+    private static void updateMotors() {
+        shooterMotor1.set(baseSpeed + modifier);
+        shooterMotor2.set(baseSpeed - modifier);
     }
 }

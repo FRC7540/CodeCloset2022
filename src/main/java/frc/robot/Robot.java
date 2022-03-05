@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.DriveBaseSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.motorcontrol.PWMSparkMax;
@@ -107,7 +108,13 @@ public class Robot extends TimedRobot {
       m_drive.driveCartesian(m_driverStick.getLeftX(), m_driverStick.getLeftY(), m_driverStick.getRightX());
       // Notice: right stick is only taking the x-axis, for the purposes of turning, not strafing.
 
-      IntakeSubsystem.intakeSpeedSet(m_operatorController.getLeftTriggerAxis());
+      IntakeSubsystem.intakeSpeedSet(m_driverStick.getLeftTriggerAxis());
+      ShooterSubsystem.shooterVelocity(m_operatorController.getRightTriggerAxis());
+      
+      //if left trigger depressed, stop shooter motors
+      if (m_operatorController.getLeftTriggerAxis() >= 0.5) {
+        ShooterSubsystem.stopShooter();
+      }
     }
   }
 
