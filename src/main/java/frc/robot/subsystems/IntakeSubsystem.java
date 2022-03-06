@@ -41,6 +41,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public void intakeStop() {
+        rollerSpeed = 0;
         rollerMotor.stopMotor();
     }
 

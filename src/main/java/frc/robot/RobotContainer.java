@@ -36,7 +36,7 @@ public class RobotContainer {
 
         new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new InstantCommand(() -> m_intake.intakePosition()), false); //select button - moves intake up/down when pressed
         new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> m_intake.intakeSpoolStop()), false); //start button - stops intake up/down movement
-        new JoystickButton(m_driverController, Button.kLeftBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller 
+        new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller 
         new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.climbUp(true)), false);
         new JoystickButton(m_driverController, Button.kX.value).whenHeld(new RunCommand(() -> m_climber.climbUp(false)), false);
 
