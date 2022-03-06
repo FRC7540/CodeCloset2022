@@ -35,15 +35,12 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     public void shooterStop() {
+            baseSpeed = 0; 
             shooterMotors.stopMotor();
     }
 
-    public void shooterOut(double shooterSpeed) {
-            shooterMotors.set(shooterSpeed);
-    }
-
         // increments baseSpeed of shooter motors in 4 zones of left trigger axis
-    public static void shooterVelocity (double shooterVelocity) {
+    public void shooterVelocity (double shooterVelocity) {
         double incrementedSpeed = 0;
         if (shooterVelocity < 0.25 && shooterVelocity > 0) {
             incrementedSpeed = Constants.ShooterConstants.lowestSpeed;
@@ -63,10 +60,6 @@ public class ShooterSubsystem extends SubsystemBase {
         updateMotors();
     }
 
-    public static void stopShooter() {
-        shooterMotors.stopMotor();
-    }
-
     // if increase = true, increase modifier. If false, decrease
     public void shooterAngleModifier(boolean increase) {
         if (increase) {
@@ -78,7 +71,7 @@ public class ShooterSubsystem extends SubsystemBase {
     }
 
     // positive modifier spins motor 1 faster than motor 2, negative spins 2 faster than 1
-    private static void updateMotors() {
+    private void updateMotors() {
         shooterMotor1.set(baseSpeed + modifier);
         shooterMotor2.set(baseSpeed - modifier);
     }

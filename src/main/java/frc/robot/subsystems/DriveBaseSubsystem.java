@@ -28,8 +28,8 @@ public class DriveBaseSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    public void drive() {
-      
+    public void drive(double ySpeed, double xSpeed, double zRotation) {
+      mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
     }
 
     public void driveStop() {
