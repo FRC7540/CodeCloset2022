@@ -11,6 +11,8 @@ public final class Constants {
         public static final int kRearRightMotorCanID = 4;
 
         public static final MotorType kMotorType = MotorType.kBrushed; 
+
+        public static final double kAxisDeadzone = 0.1;
     }
 
     public static final class ShooterConstants {
