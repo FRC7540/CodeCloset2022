@@ -15,7 +15,7 @@ public class RobotContainer {
     private final TowerSubsystem m_tower = new TowerSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
-    private final ClimberSubsystem m_climber = new ClimberSubsystem();
+    // private final ClimberSubsystem m_climber = new ClimberSubsystem();
 
     private final XboxController m_driverController = new XboxController(Constants.IO.kDriverControllerPort);
     public final XboxController m_operatorController = new XboxController(Constants.IO.kOperatorControllerPort);
@@ -38,9 +38,7 @@ public class RobotContainer {
         
         new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new LowerFeeder(m_intake), false); //select button - moves intake up/down when pressed
         new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new RaiseFeeder(m_intake), false); //start button - stops intake up/down movement
-        new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller 
-        new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.climbUp(true)), false);
-        new JoystickButton(m_driverController, Button.kX.value).whenHeld(new RunCommand(() -> m_climber.climbUp(false)), false);
+        new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller
 
         new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
         new JoystickButton(m_operatorController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
