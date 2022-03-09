@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.LowerFeeder;
+import frc.robot.commands.RaiseFeeder;
 import frc.robot.subsystems.*;
 
 public class RobotContainer {
@@ -33,9 +35,9 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new InstantCommand(() -> m_tower.setTowerSpeed(true)), false); //right button - increases speed
         new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(true)), false);
         new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(false)), false);
-
-        new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new InstantCommand(() -> m_intake.intakePosition()), false); //select button - moves intake up/down when pressed
-        new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> m_intake.intakeSpoolStop()), false); //start button - stops intake up/down movement
+        
+        new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new LowerFeeder(m_intake), false); //select button - moves intake up/down when pressed
+        new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new RaiseFeeder(m_intake), false); //start button - stops intake up/down movement
         new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller 
         new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.climbUp(true)), false);
         new JoystickButton(m_driverController, Button.kX.value).whenHeld(new RunCommand(() -> m_climber.climbUp(false)), false);

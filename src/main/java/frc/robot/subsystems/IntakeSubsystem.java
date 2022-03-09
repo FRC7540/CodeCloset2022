@@ -26,10 +26,6 @@ public class IntakeSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX rollerMotor = new WPI_VictorSPX(
             Constants.IntakeConstants.kIntakeRollerMotorCanID);
 
-    private boolean kIntakeCallibrated = false;
-    private boolean isUp = true;
-    private boolean moving = false;
-
     private static double rollerSpeed = 0;
 
     public IntakeSubsystem() {
@@ -57,32 +53,26 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // Note: isUp should be TRUE to spool paracord. FALSE unspools, setting the
     // intake rollers down.
-    public void intakePosition() {
+    public void intakePosition(boolean isUp) {
         // NOTE: negative constant speed for down, positive for up
-        moving = true;
-        do {
-            if (!kIntakeCallibrated && !upLimitSwitch.get()) {
-                spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-            } else if (!kIntakeCallibrated && upLimitSwitch.get()) {
-                spoolMotor.stopMotor();
-                kIntakeCallibrated = true;
-            } else {
-                if (isUp && !downLimitSwitch.get()) {
-                    spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                } else if (!isUp && !upLimitSwitch.get()) {
-                    spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-                } else {
-                    spoolMotor.stopMotor();
-                    isUp = !isUp;
-                    moving = false;
-                }
-            }
-        } while (moving);
+        if (isUp && !upLimitSwitch.get()) {
+            spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+        } else if (!isUp && !downLimitSwitch.get()) {
+            spoolMotor.set(-Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+        } else {
+            spoolMotor.stopMotor();
+        }
+    }
+
+    public boolean isDown() {
+        return downLimitSwitch.get();
+    }
+    public boolean isUp() {
+        return upLimitSwitch.get();
     }
 
     public void intakeSpoolStop() {
         spoolMotor.stopMotor();
-        kIntakeCallibrated = false;
     }
 
     //if speedControl is higher than rollerSpeed, set rollerSpeed to speedControl. Roller stops when intakeStop() called.
