@@ -21,6 +21,10 @@ public class DriveBaseSubsystem extends SubsystemBase {
       this.frontRight = new CANSparkMax(Constants.DriveConstants.kFrontRightMotorCanID, Constants.DriveConstants.kMotorType);
 
       this.mecanumDrive = new MecanumDrive(this.frontLeft, this.rearLeft, this.frontRight, this.rearRight);
+      this.rearLeft.setInverted(true);
+      this.rearRight.setInverted(false);
+      this.frontLeft.setInverted(true);
+      this.frontRight.setInverted(false);
     }
 
     @Override
