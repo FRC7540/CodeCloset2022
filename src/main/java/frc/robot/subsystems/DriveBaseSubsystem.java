@@ -29,7 +29,7 @@ public class DriveBaseSubsystem extends SubsystemBase {
     }
 
     public void drive(double ySpeed, double xSpeed, double zRotation) {
-      mecanumDrive.driveCartesian(ySpeed - Constants.DriveConstants.kAxisDeadzone, xSpeed - Constants.DriveConstants.kAxisDeadzone, zRotation - Constants.DriveConstants.kAxisDeadzone);
+      mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
     }
 
     public void driveStop() {
