@@ -28,6 +28,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     private static double rollerSpeed = 0;
 
+    private boolean motorStop = false;
+
     public IntakeSubsystem() {
     }
 
@@ -56,23 +58,27 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakePosition(boolean isUp) {
         // NOTE: negative constant speed for down, positive for up
         if (isUp && !upLimitSwitch.get()) {
+            motorStop = false;
             spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
         } else if (!isUp && !downLimitSwitch.get()) {
+            motorStop = false;
             spoolMotor.set(-Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
         } else {
             spoolMotor.stopMotor();
+            motorStop = true;
         }
     }
 
     public boolean isDown() {
-        return downLimitSwitch.get();
+        return downLimitSwitch.get() || motorStop;
     }
     public boolean isUp() {
-        return upLimitSwitch.get();
+        return upLimitSwitch.get() || motorStop;
     }
 
     public void intakeSpoolStop() {
         spoolMotor.stopMotor();
+        motorStop = true;
     }
 
     //if speedControl is higher than rollerSpeed, set rollerSpeed to speedControl. Roller stops when intakeStop() called.
