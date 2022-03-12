@@ -75,16 +75,6 @@ public class RobotContainer {
         }
     }
 
-    //autonomous code
-    /*private void autonomous() {
-        Command script = new SequentialCommandGroup(
-          new ParallelCommandGroup(
-              new RunCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter),
-              new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(0.5)
-          )
-        );
-    }*/
-
     public void autonomous() {
         Command script = new SequentialCommandGroup(
             new InstantCommand(() -> m_tower.setTowerSpeedManual(1), m_tower),
