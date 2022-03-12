@@ -1,7 +1,12 @@
 {
   "HALProvider": {
+    "DIO": {
+      "window": {
+        "visible": true
+      }
+    },
     "Other Devices": {
-      "Victor SPX[12]": {
+      "Victor SPX[11]": {
         "header": {
           "open": true
         }
