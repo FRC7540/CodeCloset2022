@@ -10,6 +10,8 @@ public final class Constants {
         public static final int kRearRightMotorCanID = 4;
 
         public static final MotorType kMotorType = MotorType.kBrushed;
+
+        public static final double deadzone = 0.1;
     }
 
     public static final class ShooterConstants {
@@ -17,7 +19,7 @@ public final class Constants {
         public static final int kShooterMotor2CanID = 32;
 
         // Both of these constants need to be changed at the same time.
-        public static final double lowestSpeed = 0.7;
+        public static final double lowestSpeed = 0.6;
         public static final double increment = 0.1;
     }
 
@@ -39,7 +41,7 @@ public final class Constants {
         public static final int kTowerLimitSwitchTop = 3;
         public static final int kTowerLimitSwitchBottom = 4;
 
-        public static final double defaultSpeed = 0.5;
+        public static final double defaultSpeed = 1.0;
     }
 
     public static final class ClimberConstants {

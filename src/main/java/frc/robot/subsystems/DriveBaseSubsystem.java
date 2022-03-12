@@ -33,6 +33,12 @@ public class DriveBaseSubsystem extends SubsystemBase {
     }
 
     public void drive(double ySpeed, double xSpeed, double zRotation) {
+      if (Math.abs(ySpeed) < Constants.DriveConstants.deadzone)
+        ySpeed = 0;
+      if (Math.abs(xSpeed) < Constants.DriveConstants.deadzone)
+        xSpeed = 0;
+      if (Math.abs(zRotation) < Constants.DriveConstants.deadzone)
+        zRotation = 0;
       mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
     }
 

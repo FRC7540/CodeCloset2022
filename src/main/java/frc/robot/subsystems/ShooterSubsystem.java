@@ -28,8 +28,8 @@ public class ShooterSubsystem extends SubsystemBase {
     private static double modifier = 0;
 
     public ShooterSubsystem() {
-        shooterMotor1.setInverted(true);
-        shooterMotor2.setInverted(false);
+        shooterMotor1.setInverted(false);
+        shooterMotor2.setInverted(true);
     }
 
     @Override
