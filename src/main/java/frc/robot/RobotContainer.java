@@ -26,8 +26,6 @@ public class RobotContainer {
     private final XboxController m_driverController = new XboxController(Constants.IO.kDriverControllerPort);
     public final XboxController m_operatorController = new XboxController(Constants.IO.kOperatorControllerPort);
 
-    double kTowerSpeed = 0.5;
-
     public RobotContainer() {
         this.configureButtonBindings();
         this.configureDefaultCommands();
