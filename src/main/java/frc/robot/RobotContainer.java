@@ -81,4 +81,25 @@ public class RobotContainer {
           )
         );
     }*/
+
+    public void autonomous() {
+        Command script = new SequentialCommandGroup(
+            new ParallelRaceGroup(
+                new RunCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter).withTimeout(14), //keep running the shooter for the whole 15 second teleop
+                new SequentialCommandGroup(
+                    new ParallelCommandGroup (
+                        new RunCommand(() -> m_robotDrive.drive(0.5, 0, 0), m_robotDrive).withTimeout(3), // [drive to pick up ball (out of initial position)]
+                        new RunCommand(() -> m_intake.intakeIn(false), m_intake).withTimeout(4),//add a bottom limit argument here [run intake to pick up ball]
+                        new RunCommand(() -> m_tower.towerMove(true), m_tower).withTimeout(4)//add a top limit argument here [run tower to keep ball in robot]
+                    ),
+                    new RunCommand(() -> m_robotDrive.drive(0.5, 0, 0), m_robotDrive).withTimeout(2), // [drive to firing position]
+                    new RunCommand(() -> m_tower.towerMove(true), m_tower).withTimeout(1), // [tower up (first ball)]
+                    new RunCommand(() -> m_tower.towerMove(false), m_tower).withTimeout(2), //add bottom limit [tower down (second ball, if there is one)]
+                    new RunCommand(() -> m_tower.towerMove(true), m_tower).withTimeout(2)// [tower up (second ball, if there is one)]
+                )
+            ),
+            new InstantCommand(() -> m_shooter.shooterStop(), m_shooter)
+        );
+        CommandScheduler.getInstance().schedule(false, script);
+    }
 }

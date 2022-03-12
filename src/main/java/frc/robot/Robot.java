@@ -71,6 +71,7 @@ public class Robot extends TimedRobot {
     m_autoSelected = m_chooser.getSelected();
     // m_autoSelected = SmartDashboard.getString("Auto Selector", kDefaultAuto);
     System.out.println("Auto selected: " + m_autoSelected);
+    m_robotContainer.autonomous();
   }
 
   /**
@@ -87,6 +88,7 @@ public class Robot extends TimedRobot {
         // Put default auto code here
         break;
     }
+    CommandScheduler.getInstance().run();
   }
 
   /**
