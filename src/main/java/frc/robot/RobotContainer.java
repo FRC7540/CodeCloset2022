@@ -2,9 +2,13 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.LowerFeeder;
 import frc.robot.commands.RaiseFeeder;
@@ -67,4 +71,14 @@ public class RobotContainer {
             commandScheduler.disable();
         }
     }
+
+    //autonomous code
+    /*private void autonomous() {
+        Command script = new SequentialCommandGroup(
+          new ParallelCommandGroup(
+              new RunCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter),
+              new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(0.5)
+          )
+        );
+    }*/
 }
