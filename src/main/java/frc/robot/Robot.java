@@ -35,7 +35,8 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    CameraServer.startAutomaticCapture();
+    CameraServer.startAutomaticCapture(0);
+    CameraServer.startAutomaticCapture(1);
     m_robotContainer = new RobotContainer();
 
     m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
