@@ -58,4 +58,7 @@ public class TowerSubsystem extends SubsystemBase {
             towerSpeed = towerSpeed - 0.1;
         }
     }
+    public void setTowerSpeedManual(double set) {
+        towerSpeed = set;
+    }
 }
