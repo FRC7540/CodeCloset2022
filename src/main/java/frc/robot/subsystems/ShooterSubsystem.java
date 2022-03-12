@@ -27,7 +27,10 @@ public class ShooterSubsystem extends SubsystemBase {
     private static double baseSpeed = 0;
     private static double modifier = 0;
 
-    public ShooterSubsystem() {}
+    public ShooterSubsystem() {
+        shooterMotor1.setInverted(true);
+        shooterMotor2.setInverted(false);
+    }
 
     @Override
     public void periodic() {
