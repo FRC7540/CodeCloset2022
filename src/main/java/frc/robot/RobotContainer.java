@@ -98,7 +98,8 @@ public class RobotContainer {
                     new RunCommand(() -> m_tower.towerMove(true), m_tower).withTimeout(2)// [tower up (second ball, if there is one)]
                 )
             ),
-            new InstantCommand(() -> m_shooter.shooterStop(), m_shooter)
+            new InstantCommand(() -> m_shooter.shooterStop(), m_shooter),
+            new InstantCommand(() -> m_intake.intakeStop(), m_intake)
         );
         CommandScheduler.getInstance().schedule(false, script);
     }
