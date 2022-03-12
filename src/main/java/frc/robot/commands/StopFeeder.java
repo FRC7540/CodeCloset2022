@@ -10,6 +10,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class StopFeeder extends CommandBase {
 
   private final IntakeSubsystem intake;
+
   /** Creates a new StopFeeder. */
   public StopFeeder(IntakeSubsystem intake) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -24,7 +25,7 @@ public class StopFeeder extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intake.intakeStop();
+    intake.intakeSpoolStop();
   }
 
   // Called once the command ends or is interrupted.
@@ -34,6 +35,6 @@ public class StopFeeder extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return intake.isStopped();
   }
 }

@@ -75,6 +75,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public boolean isUp() {
         return upLimitSwitch.get() || motorStop;
     }
+    public boolean isStopped() {
+        return motorStop;
+    }
 
     public void intakeSpoolStop() {
         spoolMotor.stopMotor();

@@ -37,8 +37,8 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(true)), false);
         new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(false)), false);
         
-        new JoystickButton(m_driverController, Button.kA.value).whenPressed(new LowerFeeder(m_intake), false);
-        new JoystickButton(m_driverController, Button.kY.value).whenPressed(new RaiseFeeder(m_intake), false);
+        new JoystickButton(m_driverController, Button.kA.value).whenPressed(new LowerFeeder(m_intake), true);
+        new JoystickButton(m_driverController, Button.kY.value).whenPressed(new RaiseFeeder(m_intake), true);
         new JoystickButton(m_driverController, Button.kX.value).whenPressed(new StopFeeder(m_intake), false);
         new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller
 
