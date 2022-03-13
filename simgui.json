@@ -6,6 +6,11 @@
       }
     },
     "Other Devices": {
+      "Victor SPX[11]": {
+        "header": {
+          "open": true
+        }
+      },
       "Victor SPX[12]": {
         "header": {
           "open": true
