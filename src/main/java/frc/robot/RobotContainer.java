@@ -54,7 +54,7 @@ public class RobotContainer {
         m_tower.setDefaultCommand(
             new RunCommand(() -> m_tower.towerStop(), m_tower));
         m_robotDrive.setDefaultCommand(
-            new RunCommand(() -> m_robotDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()), m_robotDrive)); // m_robotDrive might be useless here.
+            new RunCommand(() -> m_robotDrive.drive(m_driverController.getRightY(), m_driverController.getRightX(), m_driverController.getLeftX()), m_robotDrive)); // m_robotDrive might be useless here.
         m_shooter.setDefaultCommand(
             new RunCommand(() -> m_shooter.shooterVelocity(m_operatorController.getRightTriggerAxis()), m_shooter));
         m_intake.setDefaultCommand(
