@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.cameraserver.*;
 
 /**
@@ -99,9 +98,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void teleopPeriodic() {
-    if (m_robotContainer.m_operatorController.getLeftTriggerAxis() > 0.5)
-      CommandScheduler.getInstance().schedule(
-          new InstantCommand(() -> m_robotContainer.m_shooter.shooterStop(), m_robotContainer.m_shooter));
+    m_robotContainer.scheduleManualCommands();
     CommandScheduler.getInstance().run();
   }
 

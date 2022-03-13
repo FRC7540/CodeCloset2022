@@ -36,18 +36,15 @@ public class RobotContainer {
     private void configureButtonBindings() {
         // (May switch InstantCommand to RunCommand, if this doesn't work.)
         new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new AutoShoot(m_tower), false); 
-        new JoystickButton(m_operatorController, Button.kB.value).whenHeld(new AutoIntake(m_tower, m_intake), false); 
-        new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(true)), false);
-        new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(false)), false);
+        new JoystickButton(m_operatorController, Button.kX.value).whenHeld(new AutoIntake(m_tower, m_intake), false); 
         
-        new JoystickButton(m_driverController, Button.kA.value).whenPressed(new LowerFeeder(m_intake), true);
-        new JoystickButton(m_driverController, Button.kY.value).whenPressed(new RaiseFeeder(m_intake), true);
+        new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new LowerFeeder(m_intake), true);
+        new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new RaiseFeeder(m_intake), true);
+        
         new JoystickButton(m_driverController, Button.kX.value).whenPressed(new StopFeeder(m_intake), false);
-        new JoystickButton(m_driverController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_intake.intakeStop()), false); //Left bumper - stops intake roller
 
         new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
         new JoystickButton(m_operatorController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
-
     }
 
     private void configureDefaultCommands() {
@@ -56,7 +53,7 @@ public class RobotContainer {
         m_robotDrive.setDefaultCommand(
             new RunCommand(() -> m_robotDrive.drive(m_driverController.getRightY(), m_driverController.getRightX(), m_driverController.getLeftX()), m_robotDrive)); // m_robotDrive might be useless here.
         m_shooter.setDefaultCommand(
-            new RunCommand(() -> m_shooter.shooterVelocity(m_operatorController.getRightTriggerAxis()), m_shooter));
+            new RunCommand(() -> m_shooter.shooterStop(), m_shooter));
         m_intake.setDefaultCommand(
             new RunCommand(() -> m_intake.intakeStop(), m_intake));
     }
@@ -69,6 +66,23 @@ public class RobotContainer {
         } else {
             commandScheduler.disable();
         }
+    }
+
+    public void scheduleManualCommands() {
+        CommandScheduler commandScheduler = CommandScheduler.getInstance();
+        double triggerLevel = m_operatorController.getRightTriggerAxis();
+        if (triggerLevel > 0.1) {
+            if (m_operatorController.getLeftBumper()){
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter));
+            }
+            else if (m_operatorController.getRightBumper()){
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.8), m_shooter));
+            }
+            else {
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.7), m_shooter));
+            }
+        }
+
     }
 
     public void autonomous() {

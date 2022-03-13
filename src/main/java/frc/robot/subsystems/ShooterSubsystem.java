@@ -44,22 +44,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
         // increments baseSpeed of shooter motors in 4 zones of left trigger axis
     public void shooterVelocity (double shooterVelocity) {
-        double incrementedSpeed = 0;
-        if (shooterVelocity < 0.25 && shooterVelocity > 0) {
-            incrementedSpeed = Constants.ShooterConstants.lowestSpeed;
-        } else if (shooterVelocity < 0.5 && shooterVelocity > 0) {
-            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment);
-        } else if (shooterVelocity < 0.75 && shooterVelocity > 0) {
-            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment * 2);
-        } else if (shooterVelocity <= 1 && shooterVelocity > 0) {
-            incrementedSpeed = (Constants.ShooterConstants.lowestSpeed + Constants.ShooterConstants.increment * 3);
-        } else {
-            incrementedSpeed = 0;
-        }
-
-        if (incrementedSpeed > baseSpeed) {
-            baseSpeed = incrementedSpeed;
-        }
+        baseSpeed = shooterVelocity;
         updateMotors();
     }
 
