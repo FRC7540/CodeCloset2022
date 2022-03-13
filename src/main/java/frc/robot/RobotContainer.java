@@ -87,7 +87,8 @@ public class RobotContainer {
 
     public void autonomous() {
         Command script = new SequentialCommandGroup(
-            new LowerFeeder(m_intake).withTimeout(5),
+            new LowerFeeder(m_intake).withTimeout(5), // FOR FUTURE REFERENCE: This line functions, but the timeout doesn't work. The spool simply runs until
+                                                      // the end of autonomous. Unknown if limit switches apply, but they probably do.
             new InstantCommand(() -> m_tower.setTowerSpeedManual(1), m_tower),
             new ParallelRaceGroup(
                 new RunCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter).withTimeout(14), //keep running the shooter for the whole 15 second teleop
