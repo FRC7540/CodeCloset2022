@@ -17,7 +17,7 @@ public class AutoIntake extends SequentialCommandGroup {
     // Use addRequirements() here to declare subsystem dependencies.
     super(
       new ParallelCommandGroup(
-        new InstantCommand(() -> tower.setTowerSpeedManual(0.5), tower),
+        new InstantCommand(() -> tower.setTowerSpeedManual(0.4), tower),
         new InstantCommand(() -> intake.intakeSpeedSetManual(0.5), intake)
       ),
       new ParallelCommandGroup(

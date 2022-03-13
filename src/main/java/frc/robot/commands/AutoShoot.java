@@ -15,7 +15,7 @@ public class AutoShoot extends SequentialCommandGroup{
     // Use addRequirements() here to declare subsystem dependencies.
     super(
       new InstantCommand(() -> tower.setTowerSpeedManual(1.0), tower),
-      new RunCommand(() -> tower.towerMove(false), tower).withTimeout(0.1),
+      new RunCommand(() -> tower.towerMove(false), tower).withTimeout(0.2),
       new RunCommand(() -> tower.towerMove(true), tower)
     );
     addRequirements(tower);

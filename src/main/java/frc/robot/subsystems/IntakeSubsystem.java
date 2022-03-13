@@ -56,9 +56,9 @@ public class IntakeSubsystem extends SubsystemBase {
     // intake rollers down.
     public void intakePosition(boolean isUp) {
         // NOTE: negative constant speed for down, positive for up
-        if (isUp && !upLimitSwitch.get()) {
+        if (isUp && upLimitSwitch.get()) {
             spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
-        } else if (!isUp && !downLimitSwitch.get()) {
+        } else if (!isUp && downLimitSwitch.get()) {
             spoolMotor.set(-Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
         } else {
             spoolMotor.stopMotor();
@@ -66,10 +66,10 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public boolean isDown() {
-        return downLimitSwitch.get();
+        return !downLimitSwitch.get();
     }
     public boolean isUp() {
-        return upLimitSwitch.get();
+        return !upLimitSwitch.get();
     }
 
     public void intakeSpoolStop() {
