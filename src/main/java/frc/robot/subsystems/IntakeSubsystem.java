@@ -91,4 +91,8 @@ public class IntakeSubsystem extends SubsystemBase {
         }
         rollerMotor.set(rollerSpeed);
     }
+    
+    public void intakeSpeedSetManual(double speedControl) {
+        rollerMotor.set(rollerSpeed);
+    }
 }

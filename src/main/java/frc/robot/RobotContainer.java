@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.AutoIntake;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.LowerFeeder;
 import frc.robot.commands.RaiseFeeder;
 import frc.robot.commands.StopFeeder;
@@ -33,10 +35,8 @@ public class RobotContainer {
 
     private void configureButtonBindings() {
         // (May switch InstantCommand to RunCommand, if this doesn't work.)
-        new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new RunCommand(() -> m_tower.towerMove(true), m_tower), false);
-        new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new RunCommand(() -> m_tower.towerMove(false), m_tower), false);
-        new JoystickButton(m_operatorController, Button.kX.value).whenPressed(new InstantCommand(() -> m_tower.setTowerSpeed(false)), false); //left button - decreases speed
-        new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new InstantCommand(() -> m_tower.setTowerSpeed(true)), false); //right button - increases speed
+        new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new AutoShoot(m_tower), false); 
+        new JoystickButton(m_operatorController, Button.kB.value).whenHeld(new AutoIntake(m_tower, m_intake), false); 
         new JoystickButton(m_operatorController, Button.kRightBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(true)), false);
         new JoystickButton(m_operatorController, Button.kLeftBumper.value).whenPressed(new InstantCommand(() -> m_shooter.shooterAngleModifier(false)), false);
         
@@ -58,7 +58,7 @@ public class RobotContainer {
         m_shooter.setDefaultCommand(
             new RunCommand(() -> m_shooter.shooterVelocity(m_operatorController.getRightTriggerAxis()), m_shooter));
         m_intake.setDefaultCommand(
-            new RunCommand(() -> m_intake.intakeSpeedSet(m_driverController.getRightTriggerAxis()), m_intake));
+            new RunCommand(() -> m_intake.intakeStop(), m_intake));
     }
 
     // if start is true, start command scheduler, if false, stop
