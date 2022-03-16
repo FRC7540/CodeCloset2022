@@ -41,17 +41,17 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new LowerFeeder(m_intake), true);
         new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new RaiseFeeder(m_intake), true);
         
-        new JoystickButton(m_driverController, Button.kX.value).whenPressed(new StopFeeder(m_intake), false);
+        new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new StopFeeder(m_intake), false);
 
-        new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
-        new JoystickButton(m_operatorController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
+        new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
+        new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
     }
 
     private void configureDefaultCommands() {
         m_tower.setDefaultCommand(
             new RunCommand(() -> m_tower.towerStop(), m_tower));
         m_robotDrive.setDefaultCommand(
-            new RunCommand(() -> m_robotDrive.drive(m_driverController.getRightY(), m_driverController.getRightX(), m_driverController.getLeftX()), m_robotDrive)); // m_robotDrive might be useless here.
+            new RunCommand(() -> m_robotDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()), m_robotDrive)); // m_robotDrive might be useless here.
         m_shooter.setDefaultCommand(
             new RunCommand(() -> m_shooter.shooterStop(), m_shooter));
         m_intake.setDefaultCommand(
@@ -70,8 +70,21 @@ public class RobotContainer {
 
     public void scheduleManualCommands() {
         CommandScheduler commandScheduler = CommandScheduler.getInstance();
-        double triggerLevel = m_operatorController.getRightTriggerAxis();
-        if (triggerLevel > 0.1) {
+        double rightTriggerLevel = m_operatorController.getRightTriggerAxis();
+        double leftTriggerLevel = m_operatorController.getLeftTriggerAxis();
+        
+        if (leftTriggerLevel > 0.1) {
+            if (m_operatorController.getLeftBumper()){
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.05), m_shooter));
+            }
+            else if (m_operatorController.getRightBumper()){
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.2), m_shooter));
+            }
+            else {
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.1), m_shooter));
+            }
+        }
+        else if (rightTriggerLevel > 0.1) {
             if (m_operatorController.getLeftBumper()){
                 commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter));
             }
@@ -87,8 +100,8 @@ public class RobotContainer {
 
     public void autonomous() {
         Command script = new SequentialCommandGroup(
-            new LowerFeeder(m_intake).withTimeout(5), // FOR FUTURE REFERENCE: This line functions, but the timeout doesn't work. The spool simply runs until
-                                                      // the end of autonomous. Unknown if limit switches apply, but they probably do.
+            new LowerFeeder(m_intake).withTimeout(5),
+            new StopFeeder(m_intake),
             new InstantCommand(() -> m_tower.setTowerSpeedManual(1), m_tower),
             new ParallelRaceGroup(
                 new RunCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter).withTimeout(14), //keep running the shooter for the whole 15 second teleop
