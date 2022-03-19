@@ -51,7 +51,7 @@ public class RobotContainer {
         m_tower.setDefaultCommand(
             new RunCommand(() -> m_tower.towerStop(), m_tower));
         m_robotDrive.setDefaultCommand(
-            new RunCommand(() -> m_robotDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX()), m_robotDrive)); // m_robotDrive might be useless here.
+            new RunCommand(() -> m_robotDrive.drive(m_driverController.getLeftY(), m_driverController.getLeftX(), m_driverController.getRightX(), m_driverController.getRightTriggerAxis() > 0.1), m_robotDrive)); // m_robotDrive might be useless here.
         m_shooter.setDefaultCommand(
             new RunCommand(() -> m_shooter.shooterStop(), m_shooter));
         m_intake.setDefaultCommand(
@@ -75,24 +75,24 @@ public class RobotContainer {
         
         if (leftTriggerLevel > 0.1) {
             if (m_operatorController.getLeftBumper()){
-                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.05), m_shooter));
-            }
-            else if (m_operatorController.getRightBumper()){
                 commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.2), m_shooter));
             }
+            else if (m_operatorController.getRightBumper()){
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.46), m_shooter));
+            }
             else {
-                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.1), m_shooter));
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.34), m_shooter));
             }
         }
         else if (rightTriggerLevel > 0.1) {
             if (m_operatorController.getLeftBumper()){
-                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter));
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.5), m_shooter));
             }
             else if (m_operatorController.getRightBumper()){
-                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.8), m_shooter));
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter));
             }
             else {
-                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.7), m_shooter));
+                commandScheduler.schedule(new InstantCommand(() -> m_shooter.shooterVelocity(0.55), m_shooter));
             }
         }
 
@@ -100,28 +100,24 @@ public class RobotContainer {
 
     public void autonomous() {
         Command script = new SequentialCommandGroup(
-            new LowerFeeder(m_intake).withTimeout(5),
+            new LowerFeeder(m_intake).withTimeout(9),
             new StopFeeder(m_intake),
-            new InstantCommand(() -> m_tower.setTowerSpeedManual(1), m_tower),
             new ParallelRaceGroup(
-                new RunCommand(() -> m_shooter.shooterVelocity(0.6), m_shooter).withTimeout(14), //keep running the shooter for the whole 15 second teleop
+                new RunCommand(() -> m_shooter.shooterVelocity(0.505), m_shooter).withTimeout(6), //keep running the shooter for the whole 15 second teleop
                 new SequentialCommandGroup(
                     new ParallelCommandGroup (
-                        new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(3), // [drive to pick up ball (out of initial position)]
-                        new RunCommand(() -> m_intake.intakeIn(false), m_intake).withTimeout(4),//add a bottom limit argument here [run intake to pick up ball]
-                        new RunCommand(() -> m_tower.towerMove(true), m_tower).withTimeout(4)//add a top limit argument here [run tower to keep ball in robot]
+                        new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(1.3), // [drive to pick up ball (out of initial position)]
+                        new AutoIntake(m_tower, m_intake).withTimeout(2)
                     ),
                     new InstantCommand(() -> m_tower.towerStop(), m_tower),
                     new WaitCommand(1),
-                    new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(2), // [drive to firing position]
-                    new RunCommand(() -> m_tower.towerMove(true), m_tower).withTimeout(1), // [tower up (first ball)]
-                    new RunCommand(() -> m_tower.towerMove(false), m_tower).withTimeout(2), //add bottom limit [tower down (second ball, if there is one)]
-                    new RunCommand(() -> m_tower.towerMove(true), m_tower).withTimeout(2)// [tower up (second ball, if there is one)]
+                    new AutoShoot(m_tower).withTimeout(0.7),
+                    new AutoShoot(m_tower).withTimeout(0.7)
                 )
             ),
             new InstantCommand(() -> m_shooter.shooterStop(), m_shooter),
             new InstantCommand(() -> m_intake.intakeStop(), m_intake)
-        );
+        ).withTimeout(15);
         CommandScheduler.getInstance().schedule(false, script);
     }
 }

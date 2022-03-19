@@ -32,14 +32,21 @@ public class DriveBaseSubsystem extends SubsystemBase {
         // This method will be called once per scheduler run
     }
 
-    public void drive(double ySpeed, double xSpeed, double zRotation) {
+    public void drive(double ySpeed, double xSpeed, double zRotation, boolean isSlowMode) {
       if (Math.abs(ySpeed) < Constants.DriveConstants.deadzone)
         ySpeed = 0;
       if (Math.abs(xSpeed) < Constants.DriveConstants.deadzone)
         xSpeed = 0;
       if (Math.abs(zRotation) < Constants.DriveConstants.deadzone)
         zRotation = 0;
-      mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+      if (isSlowMode)
+        mecanumDrive.driveCartesian(ySpeed*0.5, xSpeed*0.5, zRotation*0.5);
+      else 
+        mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
+    }
+
+    public void drive(double ySpeed, double xSpeed, double zRotation) {
+      drive(ySpeed, xSpeed, zRotation, false);
     }
 
     public void driveStop() {

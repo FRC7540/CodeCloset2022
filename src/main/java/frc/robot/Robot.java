@@ -10,6 +10,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.*;
 
@@ -38,8 +39,8 @@ public class Robot extends TimedRobot {
     CameraServer.startAutomaticCapture(1);
     m_robotContainer = new RobotContainer();
 
-    m_chooser.setDefaultOption("Default Auto", kDefaultAuto);
-    m_chooser.addOption("My Auto", kCustomAuto);
+    m_chooser.setDefaultOption("My Auto", kCustomAuto);
+    m_chooser.addOption("Default Auto", kDefaultAuto);
     SmartDashboard.putData("Auto choices", m_chooser);
   }
 
@@ -84,13 +85,13 @@ public class Robot extends TimedRobot {
     switch (m_autoSelected) {
       case kCustomAuto:
         // Put custom auto code here
+        CommandScheduler.getInstance().run();
         break;
       case kDefaultAuto:
       default:
         // Put default auto code here
         break;
     }
-    CommandScheduler.getInstance().run();
   }
 
   /**

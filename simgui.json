@@ -57,5 +57,13 @@
       "/LiveWindow/Ungrouped/Victor SPX [41]": "Motor Controller",
       "/SmartDashboard/Auto choices": "String Chooser"
     }
+  },
+  "NetworkTables": {
+    "SmartDashboard": {
+      "Auto choices": {
+        "open": true
+      },
+      "open": true
+    }
   }
 }

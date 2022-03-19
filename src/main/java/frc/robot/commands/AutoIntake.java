@@ -18,7 +18,7 @@ public class AutoIntake extends SequentialCommandGroup {
     super(
       new ParallelCommandGroup(
         new InstantCommand(() -> tower.setTowerSpeedManual(0.4), tower),
-        new InstantCommand(() -> intake.intakeSpeedSetManual(0.5), intake)
+        new InstantCommand(() -> intake.intakeSpeedSetManual(0.48), intake)
       ),
       new ParallelCommandGroup(
         new RunCommand(() -> tower.towerMove(true), tower),
