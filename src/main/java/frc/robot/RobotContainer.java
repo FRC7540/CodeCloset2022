@@ -103,7 +103,7 @@ public class RobotContainer {
             new LowerFeeder(m_intake).withTimeout(9),
             new StopFeeder(m_intake),
             new ParallelRaceGroup(
-                new RunCommand(() -> m_shooter.shooterVelocity(0.505), m_shooter).withTimeout(6), //keep running the shooter for the whole 15 second teleop
+                new RunCommand(() -> m_shooter.shooterVelocity(0.5), m_shooter).withTimeout(6), //keep running the shooter for the whole 15 second teleop
                 new SequentialCommandGroup(
                     new ParallelCommandGroup (
                         new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(1.3), // [drive to pick up ball (out of initial position)]
