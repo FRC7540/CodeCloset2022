@@ -12,12 +12,13 @@ import frc.robot.subsystems.TowerSubsystem;
 public class AutoShoot extends SequentialCommandGroup{
   /** Creates a new AutoShoot. */
   public AutoShoot(TowerSubsystem tower) {
-    // Use addRequirements() here to declare subsystem dependencies.
     super(
       new InstantCommand(() -> tower.setTowerSpeedManual(1.0), tower),
       new RunCommand(() -> tower.towerMove(false), tower).withTimeout(0.2),
-      new RunCommand(() -> tower.towerMove(true), tower)
+      new RunCommand(() -> tower.towerMove(true), tower).until(()->  tower.topLimitSwitchTrigger()),
+      new RunCommand(()-> tower.towerMove(true), tower).withTimeout(0.1)
     );
+    // Use addRequirements() here to declare subsystem dependencies. 
     addRequirements(tower);
   }
 

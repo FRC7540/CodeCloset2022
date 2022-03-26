@@ -6,6 +6,7 @@
 // Controllers: Victors.
 // Goal: Be able to move a motor in both directions at a VARYING speed 
 //    Also needs to be able to reverse the movement to spit out balls.
+// One limit switch at the top of the tower
 
 package frc.robot.subsystems;
 
@@ -13,6 +14,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
 
 /** Add your docs here. */
@@ -21,6 +24,7 @@ public class TowerSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX frontMotor = new WPI_VictorSPX(Constants.TowerConstants.kFrontMotorCanID);
     private static final WPI_VictorSPX backMotor = new WPI_VictorSPX(Constants.TowerConstants.kBackMotorCanID);
     private final MotorControllerGroup motorGroup = new MotorControllerGroup(frontMotor, backMotor);
+    private final DigitalInput limitSwitch = new DigitalInput(Constants.TowerConstants.kTowerLimitSwitchTop);
 
     private static double towerSpeed = Constants.TowerConstants.defaultSpeed;
 
@@ -60,5 +64,9 @@ public class TowerSubsystem extends SubsystemBase {
     }
     public void setTowerSpeedManual(double set) {
         towerSpeed = set;
+    }
+
+    public boolean topLimitSwitchTrigger() {
+       return limitSwitch.get();
     }
 }
