@@ -9,18 +9,20 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.TowerSubsystem;
 
-public class AutoShoot extends SequentialCommandGroup{
+public class AutoShoot extends SequentialCommandGroup {
   /** Creates a new AutoShoot. */
   public AutoShoot(TowerSubsystem tower) {
     super(
-      new InstantCommand(() -> tower.setTowerSpeedManual(1.0), tower),
-      new RunCommand(() -> tower.towerMove(false), tower).withTimeout(0.2),
-      new RunCommand(() -> tower.towerMove(true), tower).until(()->  tower.topLimitSwitchTrigger()),
-      new RunCommand(()-> tower.towerMove(true), tower).withTimeout(0.1)
-    );
-    // Use addRequirements() here to declare subsystem dependencies. 
+        new InstantCommand(() -> tower.setTowerSpeedManual(1.0), tower),
+        new RunCommand(() -> tower.towerMove(false), tower).withTimeout(0.2),
+        new RunCommand(() -> tower.towerMove(true), tower).until(() -> tower.topLimitSwitchTrigger()),
+        // 0.3 is to long, 0.2 is to short.
+        // 0.3 can sometimes shoot 2 balls
+        // 0.2 can sometimes not shoot a ball.
+        // This is here because the limit switch is slightly lower than the shooter
+        new RunCommand(() -> tower.towerMove(true), tower).withTimeout(0.25));
+    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(tower);
   }
-
 
 }

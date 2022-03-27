@@ -10,9 +10,14 @@ package frc.robot.subsystems;
 
 import frc.robot.Constants;
 
+import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -26,6 +31,14 @@ public class IntakeSubsystem extends SubsystemBase {
     private static final WPI_VictorSPX rollerMotor = new WPI_VictorSPX(
             Constants.IntakeConstants.kIntakeRollerMotorCanID);
 
+    private final NetworkTableEntry intakeRollerTargetSpeed = Shuffleboard
+            .getTab(Constants.ShuffleboardConstants.kGameTabName)
+            .add(Constants.IntakeConstants.kIntakeRollerVoltage, 0.0)
+            .withWidget(BuiltInWidgets.kVoltageView)
+            .withSize(2, 1)
+            .withPosition(0, 5)
+            .withProperties(Map.of("min", 0, "max", 12))
+            .getEntry();
     private static double rollerSpeed = 0;
 
     public IntakeSubsystem() {
@@ -34,6 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
     @Override
     public void periodic() {
         // This method will be called once per scheduler run
+        intakeRollerTargetSpeed.setDouble(rollerSpeed);
     }
 
     public void intakeStop() {
@@ -68,6 +82,7 @@ public class IntakeSubsystem extends SubsystemBase {
     public boolean isDown() {
         return !downLimitSwitch.get();
     }
+
     public boolean isUp() {
         return !upLimitSwitch.get();
     }
@@ -76,14 +91,15 @@ public class IntakeSubsystem extends SubsystemBase {
         spoolMotor.stopMotor();
     }
 
-    //if speedControl is higher than rollerSpeed, set rollerSpeed to speedControl. Roller stops when intakeStop() called.
+    // if speedControl is higher than rollerSpeed, set rollerSpeed to speedControl.
+    // Roller stops when intakeStop() called.
     public void intakeSpeedSet(double speedControl) {
         if (speedControl > rollerSpeed) {
             rollerSpeed = speedControl;
         }
         rollerMotor.set(rollerSpeed);
     }
-    
+
     public void intakeSpeedSetManual(double speedControl) {
         rollerMotor.set(rollerSpeed);
     }

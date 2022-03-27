@@ -13,10 +13,15 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import java.util.Map;
+
 import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.motorcontrol.MotorControllerGroup;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 /** Add your docs here. */
 public class TowerSubsystem extends SubsystemBase {
@@ -26,6 +31,14 @@ public class TowerSubsystem extends SubsystemBase {
     private final MotorControllerGroup motorGroup = new MotorControllerGroup(frontMotor, backMotor);
     private final DigitalInput limitSwitch = new DigitalInput(Constants.TowerConstants.kTowerLimitSwitchTop);
 
+    private final NetworkTableEntry towerVoltageEntry = Shuffleboard
+            .getTab(Constants.ShuffleboardConstants.kGameTabName)
+            .add(Constants.TowerConstants.kTowerVoltageShuffleboard, 0.0)
+            .withWidget(BuiltInWidgets.kVoltageView)
+            .withSize(2, 1)
+            .withPosition(0, 5)
+            .withProperties(Map.of("min", 0, "max", 12))
+            .getEntry();
     private static double towerSpeed = Constants.TowerConstants.defaultSpeed;
 
     /** Creates a new DriveBaseSubsystem. */
@@ -34,7 +47,7 @@ public class TowerSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // This method will be called once per scheduler run
+        towerVoltageEntry.setDouble(frontMotor.getMotorOutputVoltage());
     }
 
     public void towerStop() {
@@ -54,19 +67,20 @@ public class TowerSubsystem extends SubsystemBase {
         }
     }
 
-    //increments kTowerSpeed by 10%. If up true, +10%. if false, -10%.
-    public void setTowerSpeed (boolean up) {
+    // increments kTowerSpeed by 10%. If up true, +10%. if false, -10%.
+    public void setTowerSpeed(boolean up) {
         if (up && !(towerSpeed >= 1)) {
             towerSpeed = towerSpeed + 0.1;
         } else if (!up && !(towerSpeed <= 0)) {
             towerSpeed = towerSpeed - 0.1;
         }
     }
+
     public void setTowerSpeedManual(double set) {
         towerSpeed = set;
     }
 
     public boolean topLimitSwitchTrigger() {
-       return limitSwitch.get();
+        return limitSwitch.get();
     }
 }

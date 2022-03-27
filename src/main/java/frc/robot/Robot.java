@@ -8,10 +8,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
 import edu.wpi.first.cameraserver.*;
 
 /**
@@ -35,13 +36,27 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    CameraServer.startAutomaticCapture(0);
-    CameraServer.startAutomaticCapture(1);
+
     m_robotContainer = new RobotContainer();
 
-    m_chooser.setDefaultOption("My Auto", kCustomAuto);
-    m_chooser.addOption("Default Auto", kDefaultAuto);
-    SmartDashboard.putData("Auto choices", m_chooser);
+
+    // Put the autonomous mode selector on the config tab in the shuffleboard
+    Shuffleboard.getTab(Constants.ShuffleboardConstants.kConfigTabName)
+        .add("Auto mode", m_chooser)
+        .withWidget(BuiltInWidgets.kComboBoxChooser);
+    m_chooser.setDefaultOption(Constants.ShuffleboardConstants.kCustomAuto1ShuffleBoardName, kCustomAuto);
+    m_chooser.addOption(Constants.ShuffleboardConstants.kDefaultAutoShuffleBoardName, kDefaultAuto);
+
+    Shuffleboard.getTab(Constants.ShuffleboardConstants.kGameTabName)
+        .add(CameraServer.startAutomaticCapture(1))
+        .withWidget(BuiltInWidgets.kCameraStream)
+        .withPosition(4, 0)
+        .withSize(4, 4);
+    Shuffleboard.getTab(Constants.ShuffleboardConstants.kGameTabName)
+        .add(CameraServer.startAutomaticCapture(0))
+        .withWidget(BuiltInWidgets.kCameraStream)
+        .withPosition(0, 0)
+        .withSize(4, 4);
   }
 
   /**
