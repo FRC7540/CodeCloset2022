@@ -38,8 +38,8 @@ public class RobotContainer {
         new JoystickButton(m_operatorController, Button.kY.value).whenHeld(new AutoShoot(m_tower), false); 
         new JoystickButton(m_operatorController, Button.kX.value).whenHeld(new AutoIntake(m_tower, m_intake), false); 
         
-        new JoystickButton(m_operatorController, Button.kA.value).whenPressed(new LowerFeeder(m_intake), true);
-        new JoystickButton(m_operatorController, Button.kB.value).whenPressed(new RaiseFeeder(m_intake), true);
+        new JoystickButton(m_operatorController, Button.kA.value).whenHeld(new LowerFeeder(m_intake), true);
+        new JoystickButton(m_operatorController, Button.kB.value).whenHeld(new RaiseFeeder(m_intake), true);
         
         new JoystickButton(m_operatorController, Button.kStart.value).whenPressed(new StopFeeder(m_intake), false);
 
