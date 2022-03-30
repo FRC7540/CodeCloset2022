@@ -62,6 +62,9 @@ public final class Constants {
         public static final int kClimberEncoderB = 7;
 
         public static final int kclimberLowerSwtich = 5;
+
+        //THIS NEEDS TO BE ADJUSTED BASED ON THE ROBOT
+        public static final double kEncoderDistancePerPulse = 1;
     }
 
     public static final class IO {

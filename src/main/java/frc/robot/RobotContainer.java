@@ -23,6 +23,7 @@ public class RobotContainer {
     private final TowerSubsystem m_tower = new TowerSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+    private final ClimberSubsystem m_climber = new ClimberSubsystem();
     // private final ClimberSubsystem m_climber = new ClimberSubsystem();
 
     private final XboxController m_driverController = new XboxController(Constants.IO.kDriverControllerPort);
@@ -45,6 +46,7 @@ public class RobotContainer {
 
         new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
         new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
+        new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.Climb(), m_climber));
     }
 
     private void configureDefaultCommands() {
@@ -56,6 +58,8 @@ public class RobotContainer {
             new RunCommand(() -> m_shooter.shooterStop(), m_shooter));
         m_intake.setDefaultCommand(
             new RunCommand(() -> m_intake.intakeStop(), m_intake));
+        m_climber.setDefaultCommand(
+            new RunCommand(()-> m_climber.climbStop(), m_climber ));
     }
 
     // if start is true, start command scheduler, if false, stop
