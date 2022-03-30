@@ -65,6 +65,9 @@ public final class Constants {
 
         //THIS NEEDS TO BE ADJUSTED BASED ON THE ROBOT
         public static final double kEncoderDistancePerPulse = 1;
+
+        //Dependant on kEncoderdistancePerPulse
+        public static final double ClimberMaxExtend = 24;
     }
 
     public static final class IO {

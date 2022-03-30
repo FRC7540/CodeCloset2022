@@ -47,6 +47,11 @@ public class RobotContainer {
         new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
         new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
         new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.Climb(), m_climber));
+        //this will be the command for the actual robot climber 
+        //extend arm
+        //new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.Climb(), m_climber).until(() -> m_climber.encoderDistanceTravled() >= Constants.ClimberConstants.ClimberMaxExtend));
+        //retract arm
+        //new JoystickButton(m_driverController, Button.kX.value).whenHeld(new RunCommand(() -> m_climber.Climb(), m_climber).until(() -> m_climber.lowerlimitswitch()));
     }
 
     private void configureDefaultCommands() {
