@@ -34,7 +34,7 @@ public final class Constants {
         public static final int kIntakeRollerMotorCanID = 12;
 
         public static final double kIntakeRollerMotorSpeed = 0.5;
-        public static final double kIntakeSpoolMotorSpeed = 1;
+        public static final double kIntakeSpoolMotorSpeed = 0.5;
 
         public static final int kIntakeLimitSwitchUp = 0;
         public static final int kIntakeLimitSwitchDown = 1;
@@ -64,10 +64,11 @@ public final class Constants {
         public static final int kclimberLowerSwtich = 5;
 
         //THIS NEEDS TO BE ADJUSTED BASED ON THE ROBOT
-        public static final double kEncoderDistancePerPulse = 1;
+        public static final double kEncoderDistancePerPulse = 21.5/900;
 
         //Dependant on kEncoderdistancePerPulse
-        public static final double ClimberMaxExtend = 24;
+        public static final double kClimberExtend = 21.5;
+        public static final double kClimberMaxPulse = 2100;
     }
 
     public static final class IO {

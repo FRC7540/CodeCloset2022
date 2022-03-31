@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.ctre.phoenix.motion.BuffTrajPointStreamJNI;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,12 +49,14 @@ public class RobotContainer {
 
         new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
         new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
-        new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.Climb(), m_climber));
-        //this will be the command for the actual robot climber 
+        new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.climb(), m_climber));
+        new JoystickButton(m_driverController, Button.kB.value).whenHeld(new RunCommand(() -> m_climber.climbReset(), m_climber).until(() -> m_climber.lowerlimitswitch()));
+        new JoystickButton(m_driverController, Button.kX.value).whenPressed(new InstantCommand(() -> m_climber.resetEncoder(), m_climber));
+        //this will be the acutal code for the robot 
         //extend arm
-        //new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.Climb(), m_climber).until(() -> m_climber.encoderDistanceTravled() >= Constants.ClimberConstants.ClimberMaxExtend));
+        new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new RunCommand(() -> m_climber.climb(), m_climber).until(() -> m_climber.encoderDistanceTravled() >= Constants.ClimberConstants.kClimberExtend));
         //retract arm
-        //new JoystickButton(m_driverController, Button.kX.value).whenHeld(new RunCommand(() -> m_climber.Climb(), m_climber).until(() -> m_climber.lowerlimitswitch()));
+        new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new RunCommand(() -> m_climber.climb(), m_climber).until(() -> m_climber.retracted()));
     }
 
     private void configureDefaultCommands() {

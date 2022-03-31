@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 /** Add your docs here. */
+//830 encoder pulse counts from fully rtracted to fully extended
+//The encoder should not go more than 2000
 public class ClimberSubsystem extends SubsystemBase {
     /** Creates a new ClimberSubsystem. */
 
@@ -64,17 +66,32 @@ public class ClimberSubsystem extends SubsystemBase {
         climberMotor.stopMotor();
     }
     
+    public void climbReset() {
+        climberMotor.set(-Constants.ClimberConstants.kClimberSpeed);
+    }
     
     public boolean lowerlimitswitch() {
-        return limitSwitch.get();
+        return !limitSwitch.get();
     }
 
     public double encoderDistanceTravled() {
         return encoder.getDistance();
     }
 
-    public void Climb() {
+    public void climb() {
         climberMotor.set(Constants.ClimberConstants.kClimberSpeed);
+    }
+
+    public void resetEncoder() {
+        encoder.reset();
+    }
+
+    public double encoderPulseCount() {
+        return encoder.get();
+    }
+
+    public boolean retracted() {
+        return  lowerlimitswitch() || encoderPulseCount() >= Constants.ClimberConstants.kClimberMaxPulse;
     }
 
 }
