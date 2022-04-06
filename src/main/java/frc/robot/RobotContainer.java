@@ -114,10 +114,10 @@ public class RobotContainer {
 
     public void autonomous() {
         Command script = new SequentialCommandGroup(
-            new LowerFeeder(m_intake).withTimeout(9),
+            new LowerFeeder(m_intake).withTimeout(3.75),
             new StopFeeder(m_intake),
             new ParallelRaceGroup(
-                new RunCommand(() -> m_shooter.shooterVelocity(0.5), m_shooter).withTimeout(6), //keep running the shooter for the whole 15 second teleop
+                new RunCommand(() -> m_shooter.shooterVelocity(0.5), m_shooter).withTimeout(9), // Original was 0.5 speed | keep running the shooter for the whole 15 second teleop 
                 new SequentialCommandGroup(
                     new ParallelCommandGroup (
                         new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(1.3), // [drive to pick up ball (out of initial position)]
@@ -125,8 +125,12 @@ public class RobotContainer {
                     ),
                     new InstantCommand(() -> m_tower.towerStop(), m_tower),
                     new WaitCommand(1),
+                    new AutoShoot(m_tower).withTimeout(0.7), // This and the one below can be increased if autonomous still doesn't work.
+                    new WaitCommand(2.5),
+                    new AutoShoot(m_tower).withTimeout(0.7), 
+                    new WaitCommand(2.5),
                     new AutoShoot(m_tower).withTimeout(0.7),
-                    new AutoShoot(m_tower).withTimeout(0.7)
+                    new WaitCommand(0.5)
                 )
             ),
             new InstantCommand(() -> m_shooter.shooterStop(), m_shooter),

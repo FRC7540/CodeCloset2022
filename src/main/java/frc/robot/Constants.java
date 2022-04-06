@@ -56,7 +56,7 @@ public final class Constants {
     public static final class ClimberConstants {
         public static final int kClimberMotorCanID = 41;
 
-        public static final double kClimberSpeed = 0.5;
+        public static final double kClimberSpeed = 0.7;
 
         public static final int kClimberEncoderA = 6;
         public static final int kClimberEncoderB = 7;
