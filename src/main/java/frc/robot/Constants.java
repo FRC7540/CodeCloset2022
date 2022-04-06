@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+
 public final class Constants {
     public static final class DriveConstants {
         public static final int kFrontLeftMotorCanID = 1;
@@ -33,7 +34,7 @@ public final class Constants {
         public static final int kIntakeRollerMotorCanID = 12;
 
         public static final double kIntakeRollerMotorSpeed = 0.5;
-        public static final double kIntakeSpoolMotorSpeed = 1;
+        public static final double kIntakeSpoolMotorSpeed = 0.5;
 
         public static final int kIntakeLimitSwitchUp = 0;
         public static final int kIntakeLimitSwitchDown = 1;
@@ -55,8 +56,19 @@ public final class Constants {
     public static final class ClimberConstants {
         public static final int kClimberMotorCanID = 41;
 
-        public static final double kClimberSpeed = 0.5;
-        public static final double kClimberLetDownModifier = -0.1;
+        public static final double kClimberSpeed = 0.7;
+
+        public static final int kClimberEncoderA = 6;
+        public static final int kClimberEncoderB = 7;
+
+        public static final int kclimberLowerSwtich = 5;
+
+        //THIS NEEDS TO BE ADJUSTED BASED ON THE ROBOT
+        public static final double kEncoderDistancePerPulse = 21.5/900;
+
+        //Dependant on kEncoderdistancePerPulse
+        public static final double kClimberExtend = 21.5;
+        public static final double kClimberMaxPulse = 2100;
     }
 
     public static final class IO {

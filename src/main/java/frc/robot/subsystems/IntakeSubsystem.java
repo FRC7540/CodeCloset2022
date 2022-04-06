@@ -71,9 +71,9 @@ public class IntakeSubsystem extends SubsystemBase {
     public void intakePosition(boolean isUp) {
         // NOTE: negative constant speed for down, positive for up
         if (isUp && upLimitSwitch.get()) {
-            spoolMotor.set(Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+            spoolMotor.set(0.9); //Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
         } else if (!isUp && downLimitSwitch.get()) {
-            spoolMotor.set(-Constants.IntakeConstants.kIntakeSpoolMotorSpeed);
+            spoolMotor.set(-0.5);
         } else {
             spoolMotor.stopMotor();
         }

@@ -1,5 +1,8 @@
 package frc.robot;
 
+import com.ctre.phoenix.motion.BuffTrajPointStreamJNI;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,6 +26,7 @@ public class RobotContainer {
     private final TowerSubsystem m_tower = new TowerSubsystem();
     private final IntakeSubsystem m_intake = new IntakeSubsystem();
     private final DriveBaseSubsystem m_robotDrive = new DriveBaseSubsystem();
+    private final ClimberSubsystem m_climber = new ClimberSubsystem();
     // private final ClimberSubsystem m_climber = new ClimberSubsystem();
 
     private final XboxController m_driverController = new XboxController(Constants.IO.kDriverControllerPort);
@@ -45,6 +49,14 @@ public class RobotContainer {
 
         new JoystickButton(m_driverController, Button.kStart.value).whenPressed(new InstantCommand(() -> setCommandScheduler(false)), false);
         new JoystickButton(m_driverController, Button.kBack.value).whenPressed(new InstantCommand(() -> setCommandScheduler(true)), false);
+        new JoystickButton(m_driverController, Button.kY.value).whenHeld(new RunCommand(() -> m_climber.climb(), m_climber));
+        new JoystickButton(m_driverController, Button.kB.value).whenHeld(new RunCommand(() -> m_climber.climbReset(), m_climber).until(() -> m_climber.lowerlimitswitch()));
+        new JoystickButton(m_driverController, Button.kX.value).whenPressed(new InstantCommand(() -> m_climber.resetEncoder(), m_climber));
+        //this will be the acutal code for the robot 
+        //extend arm
+        new JoystickButton(m_driverController, Button.kRightBumper.value).whenHeld(new RunCommand(() -> m_climber.climb(), m_climber).until(() -> m_climber.encoderDistanceTravled() >= Constants.ClimberConstants.kClimberExtend));
+        //retract arm
+        new JoystickButton(m_driverController, Button.kLeftBumper.value).whenHeld(new RunCommand(() -> m_climber.climb(), m_climber).until(() -> m_climber.retracted()));
     }
 
     private void configureDefaultCommands() {
@@ -56,6 +68,8 @@ public class RobotContainer {
             new RunCommand(() -> m_shooter.shooterStop(), m_shooter));
         m_intake.setDefaultCommand(
             new RunCommand(() -> m_intake.intakeStop(), m_intake));
+        m_climber.setDefaultCommand(
+            new RunCommand(()-> m_climber.climbStop(), m_climber ));
     }
 
     // if start is true, start command scheduler, if false, stop
@@ -100,10 +114,10 @@ public class RobotContainer {
 
     public void autonomous() {
         Command script = new SequentialCommandGroup(
-            new LowerFeeder(m_intake).withTimeout(9),
+            new LowerFeeder(m_intake).withTimeout(3.75),
             new StopFeeder(m_intake),
             new ParallelRaceGroup(
-                new RunCommand(() -> m_shooter.shooterVelocity(0.5), m_shooter).withTimeout(6), //keep running the shooter for the whole 15 second teleop
+                new RunCommand(() -> m_shooter.shooterVelocity(0.5), m_shooter).withTimeout(9), // Original was 0.5 speed | keep running the shooter for the whole 15 second teleop 
                 new SequentialCommandGroup(
                     new ParallelCommandGroup (
                         new RunCommand(() -> m_robotDrive.drive(-0.5, 0, 0), m_robotDrive).withTimeout(1.3), // [drive to pick up ball (out of initial position)]
@@ -111,8 +125,12 @@ public class RobotContainer {
                     ),
                     new InstantCommand(() -> m_tower.towerStop(), m_tower),
                     new WaitCommand(1),
+                    new AutoShoot(m_tower).withTimeout(0.7), // This and the one below can be increased if autonomous still doesn't work.
+                    new WaitCommand(2.5),
+                    new AutoShoot(m_tower).withTimeout(0.7), 
+                    new WaitCommand(2.5),
                     new AutoShoot(m_tower).withTimeout(0.7),
-                    new AutoShoot(m_tower).withTimeout(0.7)
+                    new WaitCommand(0.5)
                 )
             ),
             new InstantCommand(() -> m_shooter.shooterStop(), m_shooter),
