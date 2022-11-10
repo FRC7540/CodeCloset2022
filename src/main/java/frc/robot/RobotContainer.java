@@ -5,7 +5,6 @@ import java.lang.Math;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
@@ -165,6 +164,8 @@ public class RobotContainer {
     public void fieldSimSetup()
     {
         SmartDashboard.putData("Field", m_field);
+        m_driveSim.setPose(new Pose2d(0, 0, new Rotation2d(0)));
+
     }
 
     //Called during "test" mode, in order to run drivetrain simulation
