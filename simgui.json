@@ -74,7 +74,15 @@
       "/LiveWindow/Ungrouped/Victor SPX [41]": "Motor Controller",
       "/Shuffleboard/Auto/Auto mode": "String Chooser",
       "/Shuffleboard/Config/Auto mode": "String Chooser",
-      "/SmartDashboard/Auto choices": "String Chooser"
+      "/SmartDashboard/Auto choices": "String Chooser",
+      "/SmartDashboard/Field": "Field2d"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables": {

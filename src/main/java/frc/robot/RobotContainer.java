@@ -1,10 +1,16 @@
 package frc.robot;
 
-import com.ctre.phoenix.motion.BuffTrajPointStreamJNI;
+import java.lang.Math;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.XboxController.Button;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -31,6 +37,22 @@ public class RobotContainer {
 
     private final XboxController m_driverController = new XboxController(Constants.IO.kDriverControllerPort);
     public final XboxController m_operatorController = new XboxController(Constants.IO.kOperatorControllerPort);
+
+    //SIMULATOR MODEL
+     public DifferentialDrivetrainSim m_driveSim = new DifferentialDrivetrainSim(
+        DCMotor.getCIM(2),
+        1,
+        1,
+        1,
+        0.06,
+        1,
+        null);
+
+    //Simulator Field
+    private Field2d m_field = new Field2d();
+
+    private double m_leftMotorSim;
+    private double m_rightMotorSim;
 
     public RobotContainer() {
         this.configureButtonBindings();
@@ -137,5 +159,45 @@ public class RobotContainer {
             new InstantCommand(() -> m_intake.intakeStop(), m_intake)
         ).withTimeout(15);
         CommandScheduler.getInstance().schedule(false, script);
+    }
+
+    //Called ONCE before Test mode
+    public void fieldSimSetup()
+    {
+        SmartDashboard.putData("Field", m_field);
+    }
+
+    //Called during "test" mode, in order to run drivetrain simulation
+    public void drivetrainSimulation()
+    {
+        //Some MATH for tank driving because the simulation doesn't support MecanumDrive
+        m_leftMotorSim = 0;
+        m_rightMotorSim = 0;
+
+        if(Math.abs(m_driverController.getLeftY()) > 0.2)
+        {
+            m_leftMotorSim = m_leftMotorSim - m_driverController.getLeftY();
+            m_rightMotorSim = m_rightMotorSim - m_driverController.getLeftY();
+        }
+
+        if(Math.abs(m_driverController.getRightX()) > 0.2)
+        {
+            m_leftMotorSim = m_leftMotorSim - (m_driverController.getRightX());
+            m_rightMotorSim = m_rightMotorSim + (m_driverController.getRightX());
+        }
+
+        //if(Math.abs(m_driverController.getLeftX()) > 0.2)
+        //{
+        //    m_driveSim.setPose(new Pose2d(m_driveSim.getPose().getX() + ((m_driverController.getLeftX() * Math.cos(m_driveSim.getPose().getRotation().getDegrees() - 90)) / 10),
+        //                                  m_driveSim.getPose().getY() + ((m_driverController.getLeftX() * Math.sin(m_driveSim.getPose().getRotation().getDegrees() - 90)) / 10),
+        //                                  m_driveSim.getPose().getRotation()));
+        //}
+
+        //Set Inputs of Drive Model & Udate
+        m_driveSim.setInputs(m_rightMotorSim / 10, m_leftMotorSim / 10);
+        m_driveSim.update(0.2);
+        
+        //Set robot pose from simulated model
+        m_field.setRobotPose(m_driveSim.getPose());
     }
 }

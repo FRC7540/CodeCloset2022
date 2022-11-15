@@ -118,11 +118,18 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
+  @Override
+  public void testInit() {
+    m_robotContainer.fieldSimSetup();
+  }
+
   /**
    * This function is called periodically during test mode.
    */
   @Override
   public void testPeriodic() {
+    m_robotContainer.scheduleManualCommands();
+    m_robotContainer.drivetrainSimulation();
     CommandScheduler.getInstance().run();
   }
 }
