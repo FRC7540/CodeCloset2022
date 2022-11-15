@@ -186,12 +186,12 @@ public class RobotContainer {
             m_rightMotorSim = m_rightMotorSim + (m_driverController.getRightX());
         }
 
-        if(Math.abs(m_driverController.getLeftX()) > 0.2)
-        {
-            m_driveSim.setPose(new Pose2d(m_driveSim.getPose().getX() + ((m_driverController.getLeftX() * Math.cos(m_driveSim.getPose().getRotation().getDegrees() - 90)) / 10),
-                                          m_driveSim.getPose().getY() + ((m_driverController.getLeftX() * Math.sin(m_driveSim.getPose().getRotation().getDegrees() - 90)) / 10),
-                                          m_driveSim.getPose().getRotation()));
-        }
+        //if(Math.abs(m_driverController.getLeftX()) > 0.2)
+        //{
+        //    m_driveSim.setPose(new Pose2d(m_driveSim.getPose().getX() + ((m_driverController.getLeftX() * Math.cos(m_driveSim.getPose().getRotation().getDegrees() - 90)) / 10),
+        //                                  m_driveSim.getPose().getY() + ((m_driverController.getLeftX() * Math.sin(m_driveSim.getPose().getRotation().getDegrees() - 90)) / 10),
+        //                                  m_driveSim.getPose().getRotation()));
+        //}
 
         //Set Inputs of Drive Model & Udate
         m_driveSim.setInputs(m_rightMotorSim / 10, m_leftMotorSim / 10);
